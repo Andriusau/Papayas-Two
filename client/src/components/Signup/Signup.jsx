@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { getFromStorage, setInStorage } from '../../utils/storage.jsx';
-import { getFromStorage, setInStorage } from '../utils/storage';
 import 'whatwg-fetch';
+import {
+	getFromStorage,
+	setInStorage
+} from '../../utils/storage.jsx';
 
 class Signup extends Component {
     constructor(props) {
@@ -9,7 +11,7 @@ class Signup extends Component {
 
         this.state = {
             isLoading: true,
-            // token: '',
+            token: '',
             signUpError: '',
             signUpEmail: '',
             signUpPassword: '',
@@ -29,9 +31,9 @@ class Signup extends Component {
 
     // Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted
 	componentDidMount() {
-		this.setState({
-			isLoading: true
-		});
+		// this.setState({
+		// 	isLoading: true
+		// });
 		const obj = getFromStorage('the_main_app');
 		console.log(obj);
 		console.log(obj.token);

@@ -3,3 +3,10 @@ module.exports = {
   db: process.env.MONGODB_URI || 'mongodb://username:password@url:port/db',
   db_dev: 'mongodb://localhost:27017/login_demo'
 };
+
+// const config = {
+// 	//   db: process.env.MONGO_URL || 'mongodb://localhost:27017/papayas_three',
+// 	db: process.env.MONGODB_URI || 'mongodb://username:password@url:port/db',port: process.env.PORT || 8000,
+// };
+
+// export default config;

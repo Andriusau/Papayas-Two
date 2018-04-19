@@ -1,4 +1,4 @@
-export default function getFromStorage(key) {
+export function getFromStorage(key) {
     if (!key) {
         return null;
     }
@@ -14,9 +14,8 @@ export default function getFromStorage(key) {
     }
 }
 
-/////********************************************************
 // Set the  the Current State of Home Class
-export default function setInStorage(key, obj) {
+export function setInStorage(key, obj) {
     if (!key) {
         console.error('Error: Key is Missing!');
     }
