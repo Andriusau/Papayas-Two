@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 import {
 	getFromStorage,
 	setInStorage
-} from '../../utils/storage.jsx';
+} from '../utils/storage.jsx';
 
 class Signup extends Component {
     constructor(props) {

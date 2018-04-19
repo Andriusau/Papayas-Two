@@ -11,9 +11,9 @@ module.exports = (app) => {
     // router.use("/api", apiRoutes);
 
     // If no API routes are hit, send the React app
-	fs.readdirSync(__dirname + '/api/').forEach((file) => {
-		router.use(function (req, res) {
-				res.sendFile(path.join(__dirname, "../client/build/index.html"));
-		});
-	});
+	// fs.readdirSync(__dirname + '/api/').forEach((file) => {
+	// 	router.use(function (req, res) {
+	// 			res.sendFile(path.join(__dirname, "../client/build/index.html"));
+	// 	});
+	// });
 };
