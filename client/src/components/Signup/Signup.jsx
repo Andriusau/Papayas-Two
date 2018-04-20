@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from 'utils/storage';
+import { getFromStorage, setInStorage } from '../utils/storage.jsx';
 
 class Signup extends Component {
     constructor(props) {
@@ -66,7 +66,7 @@ class Signup extends Component {
     }
 
 	/*
-	* State Changes
+	** State Changes
 	*/
 	onTextboxChangeSignUpEmail(event) {
 		this.setState({
@@ -111,7 +111,7 @@ class Signup extends Component {
 	}
 
 	/*
-	* Sign Up Function
+	** Sign Up Function
 	*/
 	onSignUp() {
 		// Grab State
@@ -163,7 +163,7 @@ class Signup extends Component {
 	}
 
 	/*
-	* Sign In Function
+	** Sign In Function
 	*/
 	onSignIn() {
 		// Grab state
@@ -208,7 +208,7 @@ class Signup extends Component {
 	}
 
 	/*
-	* Logout Function
+	** Logout Function
 	*/
 	onLogOut() {
 		this.setState({
@@ -272,9 +272,7 @@ class Signup extends Component {
 								<p>{signInError}</p>
 							) : (null)
 						}
-						/*
-						* Sign In React HTML
-						*/
+
 						<p>Sign In!</p>
 						<input
 							type="email"
@@ -300,9 +298,7 @@ class Signup extends Component {
 								<p>{signUpError}</p>
 							) : (null)
 						}
-						/*
-						* Sign Up React HTML
-						*/
+
 						<p>Sign Up!</p>
 						<input
 							type='text'
@@ -345,9 +341,7 @@ class Signup extends Component {
 				</div>
 			);
 		}
-		/*
-		* Log Out React HTML
-		*/
+
 		return (
 			<div>
 				<p>Account</p>

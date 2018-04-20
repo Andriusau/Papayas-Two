@@ -4,11 +4,12 @@ mongoose.Promise = global.Promise;
 
 // This file empties the Books collection and inserts the books below
 
-// mongoose.connect(
-//     process.env.MONGODB_URI || 'mongodb://localhost/login_demo', {
-//         useMongoClient: true
-//     }
-// );
+mongoose.connect(
+	process.env.MONGODB_URI || 'mongodb://localhost/login_demo',
+	{
+        useMongoClient: true
+    }
+);
 
 // const bookSeed = [{
 //         title: "The Dead Zone",
