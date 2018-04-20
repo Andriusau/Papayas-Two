@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
 const UserSchema = new mongoose.Schema({
@@ -19,10 +19,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    crutchWords: [{
-        type: Schema.Types.ObjectId,
-        ref: 'crutchWords'
-    }],
+	// crutchWords: [
+	// 	{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'crutchWords'
+	// 	}
+	// ],
     isDeleted: {
         type: Boolean,
         default: false

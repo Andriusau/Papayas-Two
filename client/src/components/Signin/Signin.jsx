@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { getFromStorage, setInStorage } from '../../utils/storage.jsx';
 import { getFromStorage, setInStorage } from '../utils/storage';
 import 'whatwg-fetch';
 
@@ -15,24 +14,29 @@ class Signin extends Component {
             signInPassword: ''
         };
 
-        // Binding these State Changes to React Component
+        // Binding the values entered in the Sign In text boxes functions to the constructor
         this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
-        this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
+		this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
+
+		// Binding the values entered in the Sign Up text boxes functions to the constructor
+		this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
+		this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
+
+		// Binding my signin, signout & logout functions to the constructor
 		this.onSignIn = this.onSignIn.bind(this);
+		this.onSignUp = this.onSignUp.bind(this);
 		this.onLogOut = this.onLogOut.bind(this);
     }
 
     // Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted
     componentDidMount() {
-		const obj = getFromStorage('the_main_app');
-		console.log(obj);
-		console.log(obj.token);
+		const obj = getFromStorage('papayas_app');
         if (obj && obj.token) {
             const { token } = obj;
-			console.log(obj);
 			// Verify Token
             fetch('/api/account/verify?token=' + token)
-                .then(res => res.json()).then(json => {
+				.then(res => res.json())
+				.then(json => {
                     if (json.success) {
                         this.setState({
                             token,
@@ -77,7 +81,7 @@ class Signin extends Component {
             .then(res => res.json())
             .then(json => {
 				if (json.success) {
-					setInStorage('the_main_app', { token: json.token });
+					setInStorage('papayas_app', { token: json.token });
                     this.setState({
                         signInError: json.message,
                         isLoading: false,
@@ -99,7 +103,7 @@ class Signin extends Component {
 		this.setState({
 			isLoading: true
 		});
-		const obj = getFromStorage('the_main_app');
+		const obj = getFromStorage('papayas_app');
 		if (obj && obj.token) {
 			const { token } = obj;
 			// Logout Takes a Query Param of Token
