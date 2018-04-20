@@ -13,6 +13,10 @@
 	"bugs": {
 		"url": "https://github.com/iggy788/Second-Papayas-Project-3/issues"
 	},
+	"buildpacks":
+    [{
+      "url": "https://github.com/mars/create-react-app-buildpack"
+    }],
 	"dependencies": {
 		"husky": "^0.14.3",
 		"lint-staged": "^7.0.4",
