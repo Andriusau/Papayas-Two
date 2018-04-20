@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../utils/storage';
+import { getFromStorage, setInStorage } from 'utils/storage';
 
 class Signup extends Component {
     constructor(props) {
