@@ -7,6 +7,7 @@ import {
 import 'whatwg-fetch';
 // import Dashboard from '../Dashboard/Dashboard';
 import { getFromStorage, setInStorage } from '../utils/storage';
+import Logout from '../../components/Logout/Logout';
 
 class Signup extends Component {
     constructor(props) {
@@ -201,8 +202,8 @@ class Signup extends Component {
 
 		return (
 			<Route
-				path={'/dashboard'}
-				component={Dashboard}
+				path={'/logout'}
+				component={Logout}
 			/>
 		);
     }

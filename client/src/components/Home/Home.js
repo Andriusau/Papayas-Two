@@ -25,8 +25,8 @@ const Home = () => (
           <Link to="/dashboard">Dashboard Page</Link>
         </li>
       </ul>
-      <Route path="/signup" component={Signup} />
-      <Route path="/signin" component={Signin} />
+      <Route path="/Signup" component={Signup} />
+      <Route path="/Signin" component={Signin} />
       <PrivateRoute path="/dashboard" component={Dashboard} />
     </div>
   </Router>
@@ -71,7 +71,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       ) : (
         <Redirect
           to={{
-            pathname: "/signin",
+            pathname: "/Signin",
             state: { from: props.location }
           }}
         />
