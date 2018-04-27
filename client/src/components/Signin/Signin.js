@@ -1,42 +1,38 @@
 import React, { Component } from 'react';
-import {
-    Route,
-    Switch,
-    Redirect
-} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import 'whatwg-fetch';
-// import Dashboard from '../Dashboard/Dashboard';
 import { getFromStorage, setInStorage } from '../utils/storage';
-import Logout from '../../components/Logout/Logout';
+import TranscribeAudio from '../TranscribeAudio/TranscribeAudio';
 
-class Signup extends Component {
-    constructor(props) {
-        super(props);
-
+class Signin extends Component {
+	constructor(props) {
+		super(props);
+		/* Set State */
         this.state = {
             isLoading: true,
 			token: '',
 			signInError: '',
 			signInEmail: '',
-			signInPassword: ''
+			signInPassword: '',
+			redirect: true
         };
 
-		// Binding the values entered in the Sign In text boxes functions to the constructor
+		/* Binding the values entered in the Sign In text boxes functions to the constructor */
         this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
 		this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
 
-		// Binding my signup, signout & logout functions to the constructor
+		/* Binding my signup, signout & logout functions to the constructor */
 		this.onSignIn = this.onSignIn.bind(this);
 		this.onLogOut = this.onLogOut.bind(this);
-    }
+	}
 
-    // Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted
+	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
 	componentDidMount() {
 		const obj = getFromStorage('papayas_app');
         if (obj && obj.token) {
             const { token } = obj;
 			console.log(obj);
-			// Verify Token
+			/* Verify Token */
             fetch('/api/account/verify?token=' + token)
 				.then(res => res.json())
 				.then(json => {
@@ -56,28 +52,24 @@ class Signup extends Component {
 				isLoading: false
 			});
 		}
-    }
+	}
 
-	/*
-	** State Changes to handle click events
-	*/
+	/* State Changes to handle click events */
 	onTextboxChangeSignInEmail(event) {
 		this.setState({
-			signUpCrutchWords: event.target.value
+			signInEmail: event.target.value
 		});
 	}
 
 	onTextboxChangeSignInPassword(event) {
 		this.setState({
-			signUpCrutchWords: event.target.value
+			signInPassword: event.target.value
 		});
 	}
 
-	/*
-	** Sign In Function
-	*/
+	/* Sign In Function */
 	onSignIn() {
-		// Grab state
+		/* Grab state */
 		const {
 			signInEmail,
 			signInPassword,
@@ -87,7 +79,7 @@ class Signup extends Component {
 			isLoading: true,
 		});
 
-		// Post request to backend
+		/* Post request to backend */
 		fetch('/api/account/signin', {
 			method: 'POST',
 			headers: {
@@ -118,9 +110,7 @@ class Signup extends Component {
 			});
 	}
 
-	/*
-	** Logout Function
-	*/
+	/* Logout Function */
 	onLogOut() {
 		this.setState({
 			isLoading: true
@@ -128,7 +118,7 @@ class Signup extends Component {
 		const obj = getFromStorage('papayas_app');
 		if (obj && obj.token) {
 			const { token } = obj;
-			// Verify token
+			/* Verify token */
 			fetch('/api/account/logout?token=' + token)
 				.then(res => res.json())
 				.then(json => {
@@ -149,64 +139,60 @@ class Signup extends Component {
 			});
 		}
 	}
-	// End all of functions
+	/* End all of functions */
 
-    render() {
-        const {
-            isLoading,
+	render() {
+		const {
+			isLoading,
 			token,
-			// Sign In Const
+			/* Sign In Variables */
+			signInError,
 			signInEmail,
-			signInPassword,
-			signInError
+			signInPassword
 		} = this.state;
 
-		// If all of the above const have values then render a view that includes the following
+		/* If all of the above const have values then render a view that includes the following */
 		if (isLoading) {
 			return (<div><p>Page is Loading...</p></div>);
 		}
-
-		// If the page has finished loading but there is no token when we look for it in getFromStorage, then render these elements
+		/* If the page has finished loading but there is no token when we look for it in getFromStorage, then render these elements */
 		if (!token) {
 			return (
 				<div>
 					<div>
-						{
-							(signInError) ? (
-								<p>{signInError}</p>
-							) : (null)
-						}
-
-						<p>Sign In!</p>
-						<input
-							type="email"
-							placeholder="Email"
-							value={signInEmail}
-							onChange={this.onTextboxChangeSignInEmail}
-						/>
-						<br />
-						<input
-							type="password"
-							placeholder="Password"
-							value={signInPassword}
-							onChange={this.onTextboxChangeSignInPassword}
-						/>
-						<br />
-						<button onClick={this.onSignIn}>Sign In</button>
+					{
+						(signInError) ? (
+							<p>{signInError}</p>
+						) : (null)
+					}
+					<h1>Sign In!</h1>
+					<input
+						type="email"
+						placeholder="Email"
+						value={signInEmail}
+						onChange={this.onTextboxChangeSignInEmail}
+					/>
+					<br />
+					<input
+						type="password"
+						placeholder="Password"
+						value={signInPassword}
+						onChange={this.onTextboxChangeSignInPassword}
+					/>
+					<br />
+					<br />
+					<button
+						onClick={this.onSignIn}>
+						Sign In</button>
 					</div>
-					<br />
-					<br />
 				</div>
 			);
 		}
-
 		return (
-			<Route
-				path={'/logout'}
-				component={Logout}
-			/>
+			<Redirect to='/transcribe' component={TranscribeAudio} />
 		);
-    }
+	}
+
 }
 
-export default Signup;
+export default Signin;

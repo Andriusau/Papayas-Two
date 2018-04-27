@@ -1,19 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-
-import HeaderLinks from '../Header/HeaderLinks';
-
-import imagine from '../../assets/img/sidebar-3.jpg';
+import imagine from '../../assets/img/sidebar-5.jpg';
 import logo from '../../assets/img/reactlogo.png';
+import Header from '../Header/Header';
 
-import appRoutes from 'routes/app';
-
-class Sidebar extends Component{
+class Sidebar extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            width: window.innerWidth
-        }
+		this.state = {
+			width: window.innerWidth,
+		};
     }
     activeRoute(routeName) {
         return this.props.location.pathname.indexOf(routeName) > -1 ? 'active' : '';
@@ -23,44 +19,38 @@ class Sidebar extends Component{
     }
     componentDidMount() {
         this.updateDimensions();
-        window.addEventListener("resize", this.updateDimensions.bind(this));
-    }
+		window.addEventListener('resize', this.updateDimensions.bind(this));
+	}
+
+
+	/* End Log Out Function */
     render(){
         const sidebarBackground = {
             backgroundImage: 'url(' + imagine + ')'
         };
         return (
-            <div id="sidebar" className="sidebar" data-color="black" data-image={imagine}>
-                <div className="sidebar-background" style={sidebarBackground}></div>
-                    <div className="logo">
-                        <a href="https://like-um-project.herokuapp.com/" className="simple-text logo-mini">
-                            <div className="logo-img">
-                                <img src={logo} alt="logo_image"/>
+            <div id='sidebar' className='sidebar' data-color='black' data-image={imagine}>
+                <div className='sidebar-background' style={sidebarBackground}></div>
+                    <div className='logo'>
+                        <a href='https://new-papayas-project.herokuapp.com/' className='simple-text logo-mini'>
+                            <div className='logo-img'>
+                                <img src={logo} alt='logo_image'/>
                             </div>
 
                         </a>
-                        <a href="https://like-um-project.herokuapp.com/" className="simple-text logo-normal">
-                            Creative Tim
+                        <a href='https://new-papayas-project.herokuapp.com/' className='simple-text logo-normal'>
+                            Papayas Project 3
                         </a>
                     </div>
-                <div className="sidebar-wrapper">
-                    <ul className="nav">
-                        { this.state.width <= 991 ? (<HeaderLinks />):null }
-                        {
-                            appRoutes.map((prop,key) => {
-                                if(!prop.redirect)
-                                    return (
-                                        <li className={prop.upgrade ? "active active-pro":this.activeRoute(prop.path)} key={key}>
-                                            <NavLink to={prop.path} className="nav-link" activeClassName="active">
-                                                <i className={prop.icon}></i>
-                                                <p>{prop.name}</p>
-                                            </NavLink>
-                                        </li>
-                                    );
-                                return null;
-                            })
-                        }
-                    </ul>
+				<div className='sidebar-wrapper'>
+					<ul className='nav'>
+						{this.state.width <= 991 ? (<Header />) : null}
+							<li className='nav-item active'>
+							<NavLink to='/user' className='nav-link'> User Profile</NavLink>
+							<NavLink to='/dashboard' className='nav-link'> Dashboard</NavLink>
+							<NavLink to='/transcribe' className='nav-link'> Upload & Transcribe Audio</NavLink>
+							</li>
+					</ul>
                 </div>
             </div>
         );

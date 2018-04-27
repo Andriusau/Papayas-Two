@@ -1,37 +1,24 @@
 {
-	"name": "new-papayas-project-3-clientside",
-	"version": "1.0.0",
-	"private": true,
-	"description": "client",
-	"proxy": "http://localhost:3001/",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/iggy788/Second-Papayas-Project-3.git"
-	},
-	"author": "Mike Ignaczak",
-	"license": "ISC",
-	"dependencies": {
-		"chartist": "^0.11.0",
-		"history": "^4.7.2",
-		"husky": "^0.14.3",
-		"lint-staged": "^7.0.4",
-		"node-sass-chokidar": "^1.2.2",
-		"prettier": "^1.12.1",
-		"react": "^16.3.2",
-		"react-bootstrap": "^0.32.1",
-		"react-chartist": "^0.13.1",
-		"react-document-title": "^2.0.3",
-		"react-dom": "^16.3.2",
-		"react-router": "^4.2.0",
-		"react-router-dom": "^4.2.2",
-		"react-scripts": "1.1.4",
-		"react-stormpath": "^2.0.1",
-		"whatwg-fetch": "^2.0.4"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject"
-	}
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:3001/",
+  "dependencies": {
+    "chartist": "^0.11.0",
+    "react": "^16.0.0",
+    "react-bootstrap": "^0.32.1",
+    "react-chartist": "^0.13.1",
+    "react-dom": "^16.0.0",
+    "react-file-base64": "^1.0.3",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "whatwg-fetch": "^2.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
 }

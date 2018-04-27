@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import {
-    Route,
-    Switch,
-    Redirect
-} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../utils/storage';
-
+import { getFromStorage } from '../utils/storage';
+import Signin from '../Signin/Signin';
 class Signup extends Component {
-    constructor(props) {
-        super(props);
-
+	constructor(props) {
+		super(props);
+		/* Set State */
         this.state = {
             isLoading: true,
 			token: '',
@@ -32,9 +28,9 @@ class Signup extends Component {
 		// Binding my signup & logout functions to the constructor
 		this.onSignUp = this.onSignUp.bind(this);
 		this.onLogOut = this.onLogOut.bind(this);
-    }
+	}
 
-    // Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted
+	// Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted
 	componentDidMount() {
 		const obj = getFromStorage('papayas_app');
         if (obj && obj.token) {
@@ -60,11 +56,9 @@ class Signup extends Component {
 				isLoading: false
 			});
 		}
-    }
+	}
 
-	/*
-	** State Changes
-	*/
+	/* State Changes to handle click events */
 	onTextboxChangeSignUpEmail(event) {
 		this.setState({
 			signUpEmail: event.target.value
@@ -95,9 +89,7 @@ class Signup extends Component {
 		});
 	}
 
-	/*
-	** Sign Up Function
-	*/
+	/* Sign Up Function */
 	onSignUp() {
 		// Grab State
 		const {
@@ -147,9 +139,7 @@ class Signup extends Component {
 			});
 	}
 
-	/*
-	** Logout Function
-	*/
+	/* Logout Function */
 	onLogOut() {
 		this.setState({
 			isLoading: true
@@ -157,7 +147,7 @@ class Signup extends Component {
 		const obj = getFromStorage('papayas_app');
 		if (obj && obj.token) {
 			const { token } = obj;
-			// Verify token
+			/* Verify token */
 			fetch('/api/account/logout?token=' + token)
 				.then(res => res.json())
 				.then(json => {
@@ -178,27 +168,27 @@ class Signup extends Component {
 			});
 		}
 	}
-	// End all of functions
+	/* End all of functions */
 
-    render() {
-        const {
-            isLoading,
+	render() {
+		const {
+			isLoading,
 			token,
-			// Sign Up Const
-            signUpError,
-            signUpEmail,
+			/* Sign Up Variables */
+			signUpError,
+			signUpEmail,
 			signUpPassword,
 			signUpFirstName,
 			signUpLastName,
-			signUpCrutchWords,
+			signUpCrutchWords
 		} = this.state;
 
-		// If all of the above const have values then render a view that includes the following
+		/* If all of the above const have values then render a view that includes the following */
 		if (isLoading) {
-			return (<div><p>Page is Loading...</p></div>);
+			return (<div><p>Page is Loading... </p></div>);
 		}
 
-		// If the page has finished loading but there is no token when we look for it in getFromStorage, then render these elements
+		/* If the page has finished loading but there is no token when we look for it in getFromStorage, then render these elements */
 		if (!token) {
 			return (
 				<div>
@@ -208,57 +198,55 @@ class Signup extends Component {
 								<p>{signUpError}</p>
 							) : (null)
 						}
-
-						<p>Sign Up!</p>
+						<h1>Sign Up!</h1>
 						<input
 							type='text'
 							placeholder='First Name'
 							value={signUpFirstName}
 							onChange={this.onTextboxChangeSignUpFirstName}
-							/>
+						/>
 						<br />
 						<input
 							type='text'
 							placeholder='Last Name'
 							value={signUpLastName}
 							onChange={this.onTextboxChangeSignUpLastName}
-							/>
+						/>
 						<br />
 						<input
 							type='email'
 							placeholder='Email'
 							value={signUpEmail}
 							onChange={this.onTextboxChangeSignUpEmail}
-							/>
+						/>
 						<br />
 						<input
 							type='password'
 							placeholder='Password'
 							value={signUpPassword}
 							onChange={this.onTextboxChangeSignUpPassword}
-							/>
+						/>
 						<br />
 						<input
 							type='text'
 							placeholder='Enter Your Crutch Words Here & Separate Each Word by a Comma'
 							value={signUpCrutchWords}
 							onChange={this.onTextboxChangeSignUpCrutchWords}
-							/>
+						/>
 						<br />
 						<br />
-						<button onClick={this.onSignUp}>Sign Up!</button>
+						<button
+							onClick={this.onSignUp}>
+							Sign Up!
+							</button>
 					</div>
 				</div>
 			);
 		}
-
 		return (
-			<div>
-				<p>Account</p>
-				<button onClick={this.onLogOut}>Log Out!</button>
-			</div>
+			<Redirect to='/signin' component={Signin} />
 		);
-    }
+	}
 }
 
 export default Signup;

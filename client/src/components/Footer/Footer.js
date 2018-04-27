@@ -19,8 +19,8 @@ class Footer extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="/Blog">
-                                   Blog
+                                <a href="/Contact">
+                                   Contact
                                 </a>
                             </li>
                         </ul>

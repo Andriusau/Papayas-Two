@@ -1,73 +1,32 @@
 import React, { Component } from 'react';
-import { Navbar } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
-import HeaderLinks from './HeaderLinks';
-
-import appRoutes from '../../routes/app';
+// import appRoutes from '../../routes/app';
 
 class Header extends Component{
-    constructor(props){
-        super(props);
-        this.mobileSidebarToggle = this.mobileSidebarToggle.bind(this);
-        this.state = {
-            sidebarExists: false
-        };
-    }
-    mobileSidebarToggle(e){
-        if(this.state.sidebarExists === false){
-            this.setState({
-                sidebarExists : true
-            });
-
-        }
-        e.preventDefault();
-        document.documentElement.classList.toggle('nav-open');
-        var node = document.createElement('div');
-        node.id = 'bodyClick';
-        node.onclick = function(){
-            this.parentElement.removeChild(this);
-            document.documentElement.classList.toggle('nav-open');
-        };
-        document.body.appendChild(node);
-    }
-    // getBrand(){
-    //     var name;
-    //     appRoutes.map((prop,key) => {
-    //         if(prop.collapse){
-    //              prop.views.map((prop,key) => {
-    //                 if(prop.path === this.props.location.pathname){
-    //                     name = prop.name;
-    //                 }
-    //                 return null;
-    //             })
-    //         } else {
-    //             if(prop.redirect){
-    //                 if(prop.path === this.props.location.pathname){
-    //                     name = prop.name;
-    //                 }
-    //             }else{
-    //                 if(prop.path === this.props.location.pathname){
-    //                     name = prop.name;
-    //                 }
-    //             }
-    //         }
-    //         return null;
-    //     })
-    //     return name;
-    // }
     render(){
-        return (
-            <Navbar fluid>
-                <Navbar.Header>
-                    <Navbar.Brand>
-                        <a href="https://like-um-project.herokuapp.com/">Like, Um</a>
-                    </Navbar.Brand>
-                    <Navbar.Toggle onClick={this.mobileSidebarToggle}/>
-                </Navbar.Header>
-                <Navbar.Collapse>
-                    <HeaderLinks />
-                </Navbar.Collapse>
-            </Navbar>
+		return (
+			<nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+				<div className="container">
+					<a className="navbar-brand" href="/">Like Um</a>
+					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+						<span className="navbar-toggler-icon"></span>
+					</button>
+					<div className="collapse navbar-collapse" id="navbarResponsive">
+						<ul className="navbar-nav ml-auto">
+							<li className="nav-item active">
+								<Link to="/" className="nav-link"> Sign Up</Link>
+							</li>
+							<li className="nav-item">
+								<Link className="nav-link" to="/signin"> Sign In</Link>
+							</li>
+							<li className="nav-item">
+								<Link className="nav-link" to="/logout"> Log Out</Link>
+							</li>
+						</ul>
+					</div>
+				</div>
+            </nav>
         );
     }
 }
