@@ -7,7 +7,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import { Card } from '../Card/Card';
 import { UserCard } from '../UserCard/UserCard';
 import { appendFile } from 'fs';
-import FileBase64 from 'react-file-base64';
+import FileInputComponent from 'react-file-input-previews-base64';
 
 class TranscribeAudio extends Component {
 	/* Set State */
@@ -18,31 +18,26 @@ class TranscribeAudio extends Component {
 	fileSelectedHandler = event => {
 		this.setState({
 			selectedFile: event.target.files[0]
-		})
-		console.log(event.target.files[0]);
+		});
+		// console.log(event.target.files[0].name);
 	}
 
-	/* Callback to Encode Audio File */
-	getBaseEncodedFile(selectedFile) {
-		this.setState({ selectedFile: selectedFile })
-	}
 	/* Upload a File */
 	fileUploadHandler = () => {
-		const fd = new FormData();
 		/* Send File to Backend Server for Transcribing */
-		appendFile('audio/wav', this.state.selectedFile, this.state.selectedFile.name);
+		appendFile(this.state.selectedFile, this.state.selectedFile.name);
 		fetch('api/account/transcribe', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: fd,
+			body: this.state.selectedFile,
 			/* Logging the Progress of Uploading */
 			onUploadProgress: progressEvent => {
 				console.log('Upload Progress' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%');
 			}
 		}).then(res => {
-			console.log(res);
+			// console.log(res);
 		})
 	}
 	render() {
@@ -58,24 +53,16 @@ class TranscribeAudio extends Component {
 										<Row>
 											<Col md={12}>
 												<FormGroup controlId='formControlsTextarea'>
-													<ControlLabel>Choose Audio File</ControlLabel>
-													<FormControl
-														rows='5'
-														// style={{ display: 'none' }}
-														type='file'
-														bsClass='form-control'
-														onChange={this.fileSelectedHandler}
-														ref={fileInput => this.fileInput = fileInput}/>
-													<br />
-													<Button
-														onClick={() => this.fileInput.click()}>
-														Pick File</Button>
+												<FileInputComponent
+												rows='5'
+												style={{ display: 'none', labelText: 'none' }}
+												labelText='CHOOSE AUDIO FILE'
+												multiple={false}
+												callbackFunction={(file_arr) => { console.log(file_arr.base64) }}
+												accept="audio/wav"
+												/>
+												<br />
 												</FormGroup>
-													return (
-													<FileBase64
-													multiple={true}
-													onDone={this.getBaseEncodedFile.bind(this)} />
-												)
                                             </Col>
                                         </Row>
                                         <Row>
@@ -88,7 +75,7 @@ class TranscribeAudio extends Component {
 														rows='5'
 														componentClass='textarea'
 														bsClass='form-control'
-														placeholder='Please seperate each word by a semi colon (ex: word; word; word)'
+														placeholder='Please separate each word by a semi colon (ex: word; word; word)'
 													/>
 												</FormGroup>
                                             </Col>

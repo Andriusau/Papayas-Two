@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import 'whatwg-fetch';
 import { getFromStorage } from '../utils/storage';
+import Signin from '../Signin/Signin';
 
 class Logout extends Component {
 	constructor(props) {
@@ -78,7 +79,6 @@ class Logout extends Component {
 	render() {
 		const {
 			isLoading,
-			token,
 		} = this.state;
 
 		/* If all of the above const have values then render a view that includes the following */
@@ -100,7 +100,9 @@ class Logout extends Component {
 					</div>
 				</div>
 			);
+			<Redirect to='/signin' component={Signin} />
 	}
+
 }
 
 export default Logout;

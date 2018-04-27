@@ -5145,6 +5145,12 @@ react-file-base64@^1.0.3:
   dependencies:
     react "^15.6.1"
 
+react-file-input-previews-base64@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-file-input-previews-base64/-/react-file-input-previews-base64-1.0.6.tgz#50521e12c5339aa61fd32c65725767d5eebf1fd9"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-overlays@^0.8.0:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-0.8.3.tgz#fad65eea5b24301cca192a169f5dddb0b20d3ac5"
