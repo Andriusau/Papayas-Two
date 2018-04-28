@@ -3,7 +3,7 @@ const User = require('../../models/userModel');
 const UserSession = require('../../models/userSessionModel');
 
 module.exports = (app) => {
-    /* Sign In Route*/
+    /* Sign In Route */
     app.post('/api/account/signin', (req, res, next) => {
         const {
             body
@@ -15,7 +15,7 @@ module.exports = (app) => {
             email
         } = body;
 
-        // Make Sure Email field is not blank
+        /* Make Sure Email field is not blank */
         if (!email) {
             return res.send({
                 success: false,
@@ -30,7 +30,7 @@ module.exports = (app) => {
         }
         email = email.toLowerCase();
 
-        // Check if User exist in MongoDB
+        /* Check if User exist in MongoDB */
         User.find({
             email: email
         }, (err, users) => {
@@ -47,7 +47,7 @@ module.exports = (app) => {
                 });
             }
 
-            // Check if submitted password is valid
+            /* Check if submitted password is valid */
             const user = users[0];
             if (!user.validPassword(password)) {
                 return res.send({
@@ -56,7 +56,7 @@ module.exports = (app) => {
                 });
             }
 
-            // Otherwise Correct Password Entered Associated to User
+            /* Otherwise Correct Password Entered Associated to User */
             const userSession = new UserSession();
             userSession.userID = user._id;
             userSession.save((err, doc) => {
@@ -74,20 +74,20 @@ module.exports = (app) => {
             });
         });
     });
-    // End Sign In Route
+    /* End Sign In Route */
 
     /* Verify Sign In */
     app.get('/api/account/verify', (req, res, next) => {
-        // Get Token
+        /* Get Token */
         const {
             query
         } = req;
-        // token=test
+        /* ?token=test */
         const {
             token
         } = query;
 
-        // Verify the Token is Unique and NOT Deleted
+        /* Verify the Token is Unique and NOT Deleted */
         UserSession.find({
             _id: token,
             isDeleted: false
@@ -110,5 +110,5 @@ module.exports = (app) => {
             }
         });
     });
-    // End Verify Token
+    /* End Verify Token */
 }

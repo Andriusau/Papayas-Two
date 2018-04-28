@@ -6,18 +6,18 @@ module.exports = (app) => {
     /* Sign Up Route*/
     app.post('/api/account/signup', (req, res, next) => {
         const { body } = req;
-        // Permanent Variables
+        /* Permanent Variables */
         const {
             firstName,
             lastName,
             password
         } = body;
-        // Variables that can be changed
+        /* Variables that can be changed */
         let {
             email,
             crutchWords
         } = body;
-        // Error Handling if Fields on Sign Up Page are Blank
+        /* Error Handling if Fields on Sign Up Page are Blank */
         if (!firstName) {
             return res.send({
                 success: false,
@@ -57,8 +57,8 @@ module.exports = (app) => {
         email = email.toLowerCase();
         // crutchWords = crutchWords.toLowerCase();
 
-        // Now that fields have been filled in need to do the following:
-        // Step 1: Verify Email Doesn't Exist
+        /* Now that fields have been filled in need to do the following: */
+        /* Step 1: Verify Email Doesn't Exist */
         User.find({
             email: email
         }, (err, previousUsers) => {
@@ -73,9 +73,9 @@ module.exports = (app) => {
                     message: 'Previous User'
                 });
             }
-            // Step 2: Save the new user
+            /* Step 2: Save the new user */
             const newUser = new User();
-            // Map values from sign on page to MongoDB fields
+            /* Map values from sign on page to MongoDB fields */
             newUser.email = email;
             newUser.firstName = firstName;
             newUser.lastName = lastName;
@@ -95,5 +95,5 @@ module.exports = (app) => {
             });
         });
     });
-    // End Sign Up Route
+    /* End Sign Up Route */
 }

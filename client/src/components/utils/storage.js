@@ -30,4 +30,4 @@ export function setInStorage(key, obj) {
     }
 }
 
-// We are going to put this retrieve / check for the token in the componentDidMount of the React lifecycle.
+/* We are going to put this retrieve / check for the token in the componentDidMount of the React life cycle. */

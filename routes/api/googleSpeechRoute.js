@@ -18,8 +18,7 @@ module.exports = (app) => {
 	 */
 	app.post('/api/account/translate', (req, res, next) => {
 		const { body } = req;
-		// This grabs the additional parameters so in this case passing in
-		// "element1" with a value.
+		/* This grabs the additional parameters so in this case passing in  "element1" with a value. */
 		// let element1 = req.body.element1;
 		// console.log(element1);
 		let {
@@ -47,11 +46,10 @@ module.exports = (app) => {
 		const busboy = new Busboy({
 			headers: req.headers
 		});
-		// The file upload has completed
+		/* The file upload has completed */
 		busboy.on('finish', function () {
 			console.log('Upload finished');
-			// Your files are stored in req.files. In this case,
-			// you only have one and it's req.files.element2:
+			/* Your files are stored in req.files. In this case, you only have one and it's req.files.element2: */
 			/* This returns:
 			 * {
 			 *	element2: {
@@ -64,7 +62,7 @@ module.exports = (app) => {
 			 * 		}
 			 * }
 			 */
-			// Grabs your file object from the request.
+			/* Grabs your file object from the request. */
 			let file = req.files.element2;
 			console.log(file);
 

@@ -18,25 +18,25 @@ class Signup extends Component {
 			// signUpCrutchWords: ''
         };
 
-        // Binding the values entered in the Sign Up text boxes functions to the constructor
+        /* Binding the values entered in the Sign Up text boxes functions to the constructor */
         this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
         this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
         this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
 		this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
 		// this.onTextboxChangeSignUpCrutchWords = this.onTextboxChangeSignUpCrutchWords.bind(this);
 
-		// Binding my signup & logout functions to the constructor
+		/* Binding my signup & logout functions to the constructor */
 		this.onSignUp = this.onSignUp.bind(this);
 		this.onLogOut = this.onLogOut.bind(this);
 	}
 
-	// Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted
+	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
 	componentDidMount() {
 		const obj = getFromStorage('papayas_app');
         if (obj && obj.token) {
             const { token } = obj;
 			console.log(obj);
-			// Verify Token
+			/* Verify Token */
             fetch('/api/account/verify?token=' + token)
 				.then(res => res.json())
 				.then(json => {

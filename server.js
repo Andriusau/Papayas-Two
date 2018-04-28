@@ -19,18 +19,18 @@ app.use(busboyBodyParser());
 /* API Routes */
 require('./routes')(app);
 
-// Serve up static assets (usually on heroku)
+/* Serve up static assets (usually on heroku) */
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
 }
 
-// Send every request to the React app
-// Define any API routes before this runs
+/* Send every request to the React app */
+/* Define any API routes before this runs */
 app.get("*", function(req, res) {
     res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-//Setting up the database
+/* Setting up the database */
 const config = require('./config/database');
 mongoose.Promise = Promise;
 mongoose

@@ -5,8 +5,8 @@ const UserSession = require('../../models/userSessionModel');
 module.exports = (app) => {
     /* Logout Route */
     app.get('/api/account/logout', (req, res, next) => {
-        // Get Token
-        // token=test
+        /* Get Token */
+        /* ?token=test */
         const {
             query
         } = req;
@@ -14,7 +14,7 @@ module.exports = (app) => {
             token
         } = query;
 
-        // Verify the Token is Unique and NOT Deleted
+        /* Verify the Token is Unique and NOT Deleted */
         UserSession.findOneAndUpdate({
             _id: token,
             isDeleted: false
@@ -36,6 +36,6 @@ module.exports = (app) => {
             }
         });
     });
-    // End Logout
+    /* End Logout */
 
 }
