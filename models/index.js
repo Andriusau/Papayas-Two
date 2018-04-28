@@ -1,5 +1,5 @@
 module.exports = {
     User: require('./userModel'),
-    UserSession: require('./userSessionModel')
-    // crutchWords: require('./crutchWords')
+    UserSession: require('./userSessionModel'),
+    Speech: require('./speechModel')
 };

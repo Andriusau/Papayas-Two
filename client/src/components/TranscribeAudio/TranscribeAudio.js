@@ -20,6 +20,7 @@ class TranscribeAudio extends Component {
 			crutchWords: ''
 		}
 		console.log(this.state.audioFile);
+		console.log(this.state.crutchWords);
 		// Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor
 		this.onTextBoxChangeCrutchWords = this.onTextBoxChangeCrutchWords.bind(this);
 		this.onFileChangeAudioFile = this.onFileChangeAudioFile.bind(this);
@@ -29,7 +30,6 @@ class TranscribeAudio extends Component {
 		this.setState({
 			crutchWords: event.target.value
 		});
-		console.log(event.target.value);
 	}
 	/* Get the Select a File from Upload */
 	onFileChangeAudioFile = event => {
@@ -51,9 +51,10 @@ class TranscribeAudio extends Component {
 		console.log(this.state.audioFile);
 		console.log(this.state.crutchWords);
 
-		// const fd = new FormData();
+		const fd = new FormData();
 		/* Send File to Backend Server for Transcribing */
-		// fd.append('audio', this.state.selectedFile, this.state.selectedFile.name);
+		fd.append(this.state.audioFile);
+		console.log(fd);
 		// console.log(this.state.selectedFile);
 
 		/* POST Request to Backend. */
@@ -62,9 +63,10 @@ class TranscribeAudio extends Component {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({
-				audioFile: audioFile,
-				crutchWords: crutchWords
+			body:
+				JSON.stringify({
+					audioFile: fd,
+					crutchWords: crutchWords
 			}),
 			/* Logging the Progress of Uploading */
 			// onUploadProgress: progressEvent => {
@@ -98,7 +100,9 @@ class TranscribeAudio extends Component {
 			audioFile,
 			crutchWords
 		} = this.state;
-
+		console.log('const variables');
+		console.log(this.state.audioFile);
+		console.log(this.state.crutchWords);
 		/* If Audio File & Crutch Words are Not Entered Render these Elements */
 		// if (!audioFile && !crutchWords) {
 			return (
