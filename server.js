@@ -4,11 +4,19 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const busboy = require('connect-busboy');
+const Busboy = require('busboy');
+const busboyBodyParser = require('busboy-body-parser');
 
+/* Middleware */
+app.use(busboy());
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(busboyBodyParser());
+
+/* API Routes */
 require('./routes')(app);
 
 // Serve up static assets (usually on heroku)

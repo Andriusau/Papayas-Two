@@ -19,12 +19,24 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-	// crutchWords: [
-	// 	{
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'crutchWords'
-	// 	}
-	// ],
+	crutchWords: [
+		{
+        type: Schema.Types.ObjectId,
+        ref: 'crutchWords'
+		}
+	],
+	audioFile: [
+		{
+        type: Schema.Types.ObjectId,
+        ref: 'crutchWords'
+		}
+	],
+	transcriptions: [
+		{
+        type: Schema.Types.ObjectId,
+        ref: 'transcriptions'
+		}
+	],
     isDeleted: {
         type: Boolean,
         default: false

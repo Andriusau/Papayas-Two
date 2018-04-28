@@ -24,11 +24,16 @@
     },
     "dependencies": {
         "@google-cloud/speech": "^1.5.0",
+        "base-64": "^0.1.0",
         "bcrypt": "^2.0.1",
         "body-parser": "^1.18.2",
+        "busboy": "^0.2.14",
+        "busboy-body-parser": "^0.3.2",
         "chartist": "^0.11.0",
+        "connect-busboy": "^0.0.2",
         "dotenv": "^5.0.1",
         "express": "^4.15.4",
-        "mongoose": "^5.0.16"
+        "mongoose": "^5.0.16",
+        "utf8": "^3.0.0"
     }
 }

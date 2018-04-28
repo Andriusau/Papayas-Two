@@ -79,6 +79,7 @@ class Logout extends Component {
 	render() {
 		const {
 			isLoading,
+			token
 		} = this.state;
 
 		/* If all of the above const have values then render a view that includes the following */
@@ -86,21 +87,25 @@ class Logout extends Component {
 			return (<div><p>Page is Loading...</p></div>);
 		}
 		/* If the page has finished loading but there is no token when we look for it in getFromStorage, then render these elements */
+		if (!token) {
 
 			return (
 				<div>
-					<div>
+				<div>
 
-					<h1>Log Out!</h1>
-					<br />
-					<br />
-					<button
-						onClick={this.onLogOut}>
-						Log Out</button>
-					</div>
+				<h1>Log Out!</h1>
+				<br />
+				<br />
+				<button
+				onClick={this.onLogOut}>
+				Log Out</button>
+				</div>
 				</div>
 			);
+		}
+			return (
 			<Redirect to='/signin' component={Signin} />
+		);
 	}
 
 }

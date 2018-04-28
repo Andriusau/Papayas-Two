@@ -14,8 +14,8 @@ class Signup extends Component {
             signUpEmail: '',
             signUpPassword: '',
             signUpFirstName: '',
-			signUpLastName: '',
-			signUpCrutchWords: ''
+			signUpLastName: ''
+			// signUpCrutchWords: ''
         };
 
         // Binding the values entered in the Sign Up text boxes functions to the constructor
@@ -23,7 +23,7 @@ class Signup extends Component {
         this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
         this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
 		this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
-		this.onTextboxChangeSignUpCrutchWords = this.onTextboxChangeSignUpCrutchWords.bind(this);
+		// this.onTextboxChangeSignUpCrutchWords = this.onTextboxChangeSignUpCrutchWords.bind(this);
 
 		// Binding my signup & logout functions to the constructor
 		this.onSignUp = this.onSignUp.bind(this);
@@ -83,28 +83,28 @@ class Signup extends Component {
 		});
 	}
 
-	onTextboxChangeSignUpCrutchWords(event) {
-		this.setState({
-			signUpCrutchWords: event.target.value
-		});
-	}
+	// onTextboxChangeSignUpCrutchWords(event) {
+	// 	this.setState({
+	// 		signUpCrutchWords: event.target.value
+	// 	});
+	// }
 
 	/* Sign Up Function */
 	onSignUp() {
-		// Grab State
+		/* Grab State */
 		const {
             signUpEmail,
             signUpPassword,
             signUpFirstName,
 			signUpLastName,
-			signUpCrutchWords
+			// signUpCrutchWords
         } = this.state;
 
         this.setState({
             isLoading: true
 		});
 
-		// POST Request to Backend.
+		/* POST Request to Backend. */
 		fetch('api/account/signup', {
 			method: 'POST',
 			headers: {
@@ -115,7 +115,7 @@ class Signup extends Component {
 				lastName: signUpLastName,
 				email: signUpEmail,
 				password: signUpPassword,
-				crutchWords: signUpCrutchWords
+				// crutchWords: signUpCrutchWords
 			}),
 		}).then(res => res.json())
 			.then(json => {
@@ -127,8 +127,8 @@ class Signup extends Component {
 						signUpEmail: '',
 						signUpPassword: '',
 						signUpFirstName: '',
-						signUpLastName: '',
-						signUpCrutchWords: ''
+						signUpLastName: ''
+						// signUpCrutchWords: ''
 					});
 				} else {
 					this.setState({
@@ -179,8 +179,8 @@ class Signup extends Component {
 			signUpEmail,
 			signUpPassword,
 			signUpFirstName,
-			signUpLastName,
-			signUpCrutchWords
+			signUpLastName
+			// signUpCrutchWords
 		} = this.state;
 
 		/* If all of the above const have values then render a view that includes the following */
@@ -225,13 +225,6 @@ class Signup extends Component {
 							placeholder='Password'
 							value={signUpPassword}
 							onChange={this.onTextboxChangeSignUpPassword}
-						/>
-						<br />
-						<input
-							type='text'
-							placeholder='Enter Your Crutch Words Here & Separate Each Word by a Comma'
-							value={signUpCrutchWords}
-							onChange={this.onTextboxChangeSignUpCrutchWords}
 						/>
 						<br />
 						<br />
