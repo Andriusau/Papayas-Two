@@ -10,11 +10,11 @@ const busboyBodyParser = require('busboy-body-parser');
 
 /* Middleware */
 app.use(busboy());
+app.use(busboyBodyParser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(busboyBodyParser());
 
 /* API Routes */
 require('./routes')(app);

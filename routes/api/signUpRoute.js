@@ -15,7 +15,10 @@ module.exports = (app) => {
         /* Variables that can be changed */
         let {
             email,
-            crutchWords
+			crutchWords,
+			audioFile,
+			transcription,
+			countCrutchWords
         } = body;
         /* Error Handling if Fields on Sign Up Page are Blank */
         if (!firstName) {
@@ -79,7 +82,10 @@ module.exports = (app) => {
             newUser.email = email;
             newUser.firstName = firstName;
             newUser.lastName = lastName;
-            newUser.crutchWords = crutchWords;
+			newUser.crutchWords = crutchWords;
+			newUser.countCrutchWords = countCrutchWords;
+			newUser.audioFile = audioFile;
+			newUser.transcription = transcription;
             newUser.password = newUser.generateHash(password);
             newUser.save((err, user) => {
                 if (err) {

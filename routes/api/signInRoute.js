@@ -79,13 +79,9 @@ module.exports = (app) => {
     /* Verify Sign In */
     app.get('/api/account/verify', (req, res, next) => {
         /* Get Token */
-        const {
-            query
-        } = req;
+        const { query } = req;
         /* ?token=test */
-        const {
-            token
-        } = query;
+        const { token } = query;
 
         /* Verify the Token is Unique and NOT Deleted */
         UserSession.find({

@@ -7,12 +7,8 @@ module.exports = (app) => {
     app.get('/api/account/logout', (req, res, next) => {
         /* Get Token */
         /* ?token=test */
-        const {
-            query
-        } = req;
-        const {
-            token
-        } = query;
+        const { query } = req;
+        const { token } = query;
 
         /* Verify the Token is Unique and NOT Deleted */
         UserSession.findOneAndUpdate({

@@ -21,20 +21,30 @@ const UserSchema = new mongoose.Schema({
     },
 	crutchWords: [
 		{
-        type: Schema.Types.ObjectId,
-        ref: 'crutchWords'
+			type: Schema.Types.ObjectId,
+			ref: 'CrutchWords',
+			default: ''
+		}
+	],
+	countCrutchWords: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'CountCrutchWords',
+			default: ''
 		}
 	],
 	audioFile: [
 		{
         type: Schema.Types.ObjectId,
-        ref: 'crutchWords'
+		ref: 'AudioFile',
+		default:''
 		}
 	],
-	transcriptions: [
+	transcription: [
 		{
         type: Schema.Types.ObjectId,
-        ref: 'transcriptions'
+		ref: 'Transcription',
+		default:''
 		}
 	],
     isDeleted: {
