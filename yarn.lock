@@ -401,7 +401,13 @@ busboy-body-parser@^0.3.2:
     bytes "^2.0.0"
     debug "^2.1.0"
 
-busboy@*, busboy@^0.2.11, busboy@^0.2.14, busboy@^0.2.9:
+busboy-promise@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/busboy-promise/-/busboy-promise-0.0.3.tgz#0868bf8467041463b90cbec707efab782a09c3ae"
+  dependencies:
+    busboy "^0.2.12"
+
+busboy@*, busboy@^0.2.11, busboy@^0.2.12, busboy@^0.2.14, busboy@^0.2.9:
   version "0.2.14"
   resolved "https://registry.yarnpkg.com/busboy/-/busboy-0.2.14.tgz#6c2a622efcf47c57bbbe1e2a9c37ad36c7925453"
   dependencies:
@@ -2312,6 +2318,12 @@ process-nextick-args@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
 
+promisify@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/promisify/-/promisify-0.0.3.tgz#754db61f29ee6476ab543c45b464d21f5ef55686"
+  dependencies:
+    when ""
+
 protobufjs@^5.0.0:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-5.0.2.tgz#59748d7dcf03d2db22c13da9feb024e16ab80c91"
@@ -3116,6 +3128,10 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+when@:
+  version "3.7.8"
+  resolved "https://registry.yarnpkg.com/when/-/when-3.7.8.tgz#c7130b6a7ea04693e842cdc9e7a1f2aa39a39f82"
 
 which@^1.2.9:
   version "1.3.0"

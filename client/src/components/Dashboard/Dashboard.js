@@ -98,9 +98,9 @@ class Dashboard extends Component {
 								<Col md={4}>
 									<Card
 										statsIcon="fa fa-clock-o"
-										title="Email Statistics"
-										category="Last Campaign Performance"
-										stats="Campaign sent 2 days ago"
+										title="Percentage of Audio File"
+										category="Since Last Audio Upload"
+										stats="Audio sent 2 minutes ago"
 										content={
 											<div id="chartPreferences" className="ct-chart ct-perfect-fourth">
 												<ChartistGraph data={dataPie} type="Pie" />
