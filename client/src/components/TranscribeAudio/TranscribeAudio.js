@@ -58,14 +58,14 @@ class TranscribeAudio extends Component {
 		// console.log(this.state.selectedFile);
 
 		/* POST Request to Backend. */
-		fetch('api/account/transcribe', {
+		fetch('api/account/upload', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body:
 				JSON.stringify({
-					audioFile: fd,
+					element: fd,
 					crutchWords: crutchWords
 			}),
 			/* Logging the Progress of Uploading */
