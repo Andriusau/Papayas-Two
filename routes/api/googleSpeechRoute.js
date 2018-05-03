@@ -11,49 +11,15 @@ const speech = require('@google-cloud/speech');
 const request = require("request");
 const fs = require('fs');
 
-function googleTranslate(file) {
-    /* Set Up Request to Google Speech API */
-    const options = {
-        method: 'POST',
-        url: 'https://speech.googleapis.com/v1/speech:recognize',
-        qs: {
-            key: 'AIzaSyBmBNjnnHCRvNv8pdo_90qo5Fu-hjdIz8M'
-        },
-        headers: {
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'application/json'
-        },
-        body: {
-            audio: {
-                content: file
-            },
-            config: {
-                "languageCode": "en-US",
-            }
-        },
-        json: true
-    };
-    request(options, function(err, response, body) {
-		if (err) throw new Error(err);
-		console.log(JSON.stringify(body.results));
-		// console.log('Transcript');
-		// console.log(JSON.stringify(body.results[0].alternatives[0].transcript));
-		// console.log('Confidence Level');
-        // console.log(JSON.stringify(body.results[0].alternatives[0].confidence));
-    });
-}
+
 
 module.exports = (app) => {
 
     app.get('/api/account/users', (req, res, next) => {
         /* Get Token */
         /* ?token=test */
-        const {
-            query
-        } = req;
-        const {
-            token
-        } = query;
+        const { query } = req;
+        const { token } = query;
 
         /* Get User Who is Saving the Audio */
         User.findOne({
@@ -81,14 +47,16 @@ module.exports = (app) => {
     });
 
     /* Uploading and Transcribing Audio File */
-    app.post('/api/account/upload', function(req, res, next) {
+	app.post('/api/account/upload', function (req, res, next) {
+		const { body, usersId } = req.body;
+
         const busboy = new Busboy({
             headers: req.headers
         });
         const element1 = req.body.element1;
         const convertedFile = btoa(req.files.element2.data);
         // console.log(file);
-        // The file upload has completed
+        /* The file upload has completed */
         busboy.on('finish', function() {
             /* Converts File to Base64 */
             const file = convertedFile;
@@ -97,80 +65,83 @@ module.exports = (app) => {
             /* Call googleTranslate Function */
             googleTranslate(file);
         });
-        req.pipe(busboy);
+		req.pipe(busboy);
     });
-    // busboyPromise(req)
-    //     .then(function(parts) {
-    //         for (var name in parts.fields) {
-    //             var field = parts.fields[name];
-    // console.log('field name:', req.files.element2.name, 'value:', req.files.element2.data);
-    // }
-    // console.log('File [' + req.files.element2.name + '] Finished');
-    // console.log('File Type [' + req.files.element2.mimetype + ']');
-    // console.log('File Encoding [' + req.files.element2.encoding + ']');
 
-    /* The File Uploaded */
-    // console.log('File Uploaded:');
-    // console.log(req.files.element2);
-    // console.log('File Data');
-    // console.log(req.files.element2.data);
-    // console.log('File Name:');
-    // console.log(req.files.element2.name);
+	function googleTranslate(file) {
+    /* Set Up Request to Google Speech API */
+    const options = {
+        method: 'POST',
+        url: 'https://speech.googleapis.com/v1/speech:recognize',
+        qs: {
+            key: 'AIzaSyBmBNjnnHCRvNv8pdo_90qo5Fu-hjdIz8M'
+        },
+        headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json'
+        },
+        body: {
+            audio: {
+                content: file
+            },
+            config: {
+                "languageCode": "en-US",
+            }
+        },
+        json: true
+    };
+		request(options, function (err, res, body) {
+			if (err) throw new Error(err);
+			/* The File Uploaded Object */
+			// console.log(JSON.stringify(body.results));
+			let transcription = { transcription: body.results[0].alternatives[0].transcript};
+			console.log(transcription);
+			Transcription.create(transcription)
+				.then(result => {
+					User.findOneAndUpdate({ _id: usersId }, { $push: { transcriptions: result._id } }, { new: true })
+						.then(data => res.json(result))
+						.catch(err => res.json(err));
+				})
+				// .catch(err => res.json(err));
+			});
+        // console.log('Transcript');
+		// console.log(JSON.stringify(body.results[0].alternatives[0].transcript));
+        // console.log('Confidence Level');
+        // console.log(JSON.stringify(body.results[0].alternatives[0].confidence));
 
-
-    // console.log(solution.file);
-    //     }).then(function(result) {
-    //         // Do stuff
-    //         const options = {
-    //             method: 'POST',
-    //             url: 'https://speech.googleapis.com/v1/speech:recognize',
-    //             qs: {
-    //                 key: 'AIzaSyBmBNjnnHCRvNv8pdo_90qo5Fu-hjdIz8M'
-    //             },
-    //             headers: {
-    //                 'Cache-Control': 'no-cache',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: {
-    //                 audio: {
-    //                     content: file
-    //                 },
-    //                 config: {
-    //                     "languageCode": "en-US",
-    //                 }
-    //             },
-    //             json: true
-    //         };
-    //         request(options, function(err, response, body) {
-    //             if (err) {
-    //                 return res.send({
-    //                     success: false,
-    //                     message: 'File Not Uploaded'
-    //                 });
-    //             }
-    //             // console.log(JSON.stringify(body.results));
-    //         })
-    //         return res.send({
-    //             success: true,
-    //             message: 'File Uploaded!'
-    //         }).then(function(result) {
-    //             /* Save Google Transcription to User */
-    //             let newTranscription = JSON.stringify(body.results);
-    //             Transcription
-    //                 .findByIdAndUpdate(user._id, { $set: { title: req.files.element2.name } }, { $set: { body: newTranscription } })
-    //                 .then(result => res.json(result))
-    //                 .catch(err => res.json(err));
-    //         })
-    //     }).catch(function(error) {
-    //         // Handle error
-    //         return res.send({
-    //             success: false,
-    //             message: 'no file'
-    //         })
-    //     });
-    //     req.pipe(busboy);
-    // });
-
+		// if (!transcription) {
+        //     return res.send({
+        //         success: false,
+        //         message: 'Error: No File!'
+        //     });
+        // }
+	/* Save the Transcription to the User's Profile */
+		function saveTranscription(transcription) {
+			User.findById(id, function (err, users) {
+				if (err) {
+					return res.send({
+						success: false,
+						message: 'Error: Invalid Password!'
+					});
+					const transcribedAudio = new Transcription();
+					/* Map Transcription to User Profile in MongoDB */
+					transcribedAudio.transcription = transcription;
+					transcribedAudio.save((err, users) => {
+						if (err) {
+							return res.send({
+								success: false,
+								message: err.message
+							});
+						}
+						return res.send({
+							success: true,
+							message: 'File Saved!'
+						});
+					});
+				}
+			});
+		}
+	}
     /* Get Transcription from User */
 
     /* Find the Crutch Words in Transcription User Identified */

@@ -5,15 +5,9 @@ const UserSession = require('../../models/userSessionModel');
 module.exports = (app) => {
     /* Sign In Route */
     app.post('/api/account/signin', (req, res, next) => {
-        const {
-            body
-        } = req;
-        const {
-            password
-        } = body;
-        let {
-            email
-        } = body;
+        const { body } = req;
+        const { password } = body;
+        let { email } = body;
 
         /* Make Sure Email field is not blank */
         if (!email) {

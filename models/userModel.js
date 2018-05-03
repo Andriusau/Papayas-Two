@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
 		default:''
 		}
 	],
-	transcription: [
+	transcriptions: [
 		{
         type: Schema.Types.ObjectId,
 		ref: 'Transcription',
