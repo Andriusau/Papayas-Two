@@ -42,7 +42,7 @@ module.exports = (app) => {
             /* Converts File to Base64 */
 			const file = convertedFile;
 			// const token = token;
-            console.log('Upload finished');
+            console.log('Upload finished... Starting Translation');
             /* Call googleTranslate Function */
             googleTranslate(file, token);
         });
@@ -55,7 +55,7 @@ module.exports = (app) => {
 		// console.log(token);
     const options = {
         method: 'POST',
-        url: 'https://speech.googleapis.com/v1/speech:recognize',
+        url: 'https://cors-anywhere.herokuapp.com/https://speech.googleapis.com/v1/speech:recognize',
         qs: {
             key: 'AIzaSyBmBNjnnHCRvNv8pdo_90qo5Fu-hjdIz8M'
         },
@@ -84,28 +84,40 @@ module.exports = (app) => {
 				transcriptionId: token
 			};
 			// console.log('transcription: ' + JSON.stringify(body.results[0].alternatives[0].transcript));
-			console.log(transcription);
 			/* Create a the Transcription in the Transcriptions Collection */
 			Transcription.create(transcription);
 			/* Save the Transcription to the User's Profile */
-			const newTranscription = new Transcription({
-				transcription: transcription,
-				transcriptionId: transcription._id
-				// transcriptionId: token
+			console.log(transcription);
+			console.log(transcription.transcription);
+			console.log(transcription.transcriptionId);
 
-			});
+			const newTranscription = new Transcription(
+				{transcription: transcription, transcriptionId: transcription._id}
+			);
 			newTranscription.save(function () {
 				console.log('transcription saved');
+				console.log(newTranscription);
 				console.log(newTranscription._id);
+				console.log(transcription.transcriptionId);
 
 
-				Transcription.findOne({ _id: newTranscription._id })
-					.then(function (dbTranscription) {
-					console.log(dbTranscription);
-				}).catch(function (err) {
-					console.log(err.message);
-				})
-			});
+				User.findOneAndUpdate({
+					// This has to be Equal to the User's Object ID
+						_id: transcription.transcriptionId
+					}, {
+						$push: {
+							transcriptions: newTranscription
+						}
+					}, {
+						new: true
+					})
+					.then(function (result) {
+						console.log(result);
+
+					}).catch(function (err) {
+						console.log(err.message);
+					})
+				});
 			// Transcription.find({
 			// 	transcription: transcription
 			// }, (transcription) => {

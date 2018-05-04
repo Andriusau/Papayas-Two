@@ -121,6 +121,7 @@ module.exports = (app) => {
 				return res.send({
 					success: true,
 					message: 'You\'re Found',
+					id: _id,
 					firstName: doc.firstName,
 					lastName: doc.lastName,
 					email: doc.email,

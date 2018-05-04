@@ -8,6 +8,7 @@ import Sidebar from '../Sidebar/Sidebar';
 // import Dashboard from '../Dashboard/Dashboard';
 import { Card } from '../Card/Card';
 import { UserCard } from '../UserCard/UserCard';
+import { getFromStorage } from '../utils/storage';
 // import { appendFile } from 'fs';
 
 class TranscribeAudio extends Component {
@@ -15,94 +16,161 @@ class TranscribeAudio extends Component {
 		super(props);
 		/* Set State */
 		this.state = {
+			isLoading: true,
+			token: '',
+			element1: '',
+			element2: '',
 			uploadError: '',
-			audioFile: '',
-			crutchWords: ''
+			selectedFile: null
 		}
-		console.log(this.state.audioFile);
-		console.log(this.state.crutchWords);
 		// Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor
-		this.onTextBoxChangeCrutchWords = this.onTextBoxChangeCrutchWords.bind(this);
-		this.onFileChangeAudioFile = this.onFileChangeAudioFile.bind(this);
+		// this.onTextBoxChangeCrutchWords = this.onTextBoxChangeCrutchWords.bind(this);
+		this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
 	}
+	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
+	componentDidMount() {
+		const obj = getFromStorage('papayas_app');
+		if (obj && obj.token) {
+			const {
+				token
+			} = obj;
+			console.log(obj);
+			/* Verify Token */
+			fetch('/api/account/verify?token=' + token)
+				.then(res => res.json())
+				.then(json => {
+					if (json.success) {
+						this.setState({
+							token,
+							isLoading: false
+						});
+					} else {
+						this.setState({
+							isLoading: false
+						});
+					}
+				})
+		} else {
+			this.setState({
+				isLoading: false
+			});
+		}
+	}
+
+	// state = {
+	// 	selectedFile: null
+	// }
+
+	fileSelectedHandler = event => {
+		this.setState({
+			selectedFile: event.target.files[0]
+		});
+		// console.log(event.target.files[0]);
+	}
+
+// 	function checkStatus(response) {
+// 	if (response.status >= 200 && response.status < 300) {
+// 		return response
+// 	} else {
+// 		var error = new Error(response.statusText)
+// 		error.response = response
+// 		throw error
+// 	}
+// }
+// function parseJSON(response) {
+// 	return response.json()
+// }
 	/* Get Crutch Words from Text Area */
-	onTextBoxChangeCrutchWords(event) {
-		this.setState({
-			crutchWords: event.target.value
-		});
-	}
+	// onTextBoxChangeCrutchWords(event) {
+	// 	this.setState({
+	// 		crutchWords: event.target.value
+	// 	});
+	// }
 	/* Get the Select a File from Upload */
-	onFileChangeAudioFile = event => {
-		this.setState({
-			audioFile: event.target.files[0]
-		});
-		console.log(event.target.files[0]);
-		console.log(event.target.files[0].name);
-		console.log(event.target.files[0].size);
-	}
+	// onFileChangeAudioFile = event => {
+	// 	this.setState({
+	// 		audioFile: event.target.files[0]
+	// 	});
+	// 	console.log(event.target.files[0]);
+	// 	// console.log(event.target.files[0].name);
+	// 	// console.log(event.target.files[0].size);
+	// }
 
 	/* Take Uploaded File & Send to the Back End */
 	fileUploadHandler = () => {
 		/* Grab State */
-		const {
-            audioFile,
-            crutchWords
-		} = this.state;
-		console.log(this.state.audioFile);
-		console.log(this.state.crutchWords);
+		// const {
+        //     selectedFile
+		// } = this.state;
+		// console.log(this.state.selectedFile);
+		console.log(this.state.token);
+
+		this.setState({
+			isLoading: true,
+		});
 
 		const fd = new FormData();
 		/* Send File to Backend Server for Transcribing */
-		fd.append(this.state.audioFile);
-		console.log(fd);
+		fd.append('file',
+			this.state.selectedFile);
 		// console.log(this.state.selectedFile);
 
+		const obj = getFromStorage('papayas_app');
+            const { token } = obj;
+			console.log(obj);
 		/* POST Request to Backend. */
-		fetch('api/account/upload', {
+		fetch('/api/account/upload/', {
 			method: 'POST',
+			credentials: 'same-origin',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body:
 				JSON.stringify({
-					element: fd,
-					crutchWords: crutchWords
+					element1: token,
+					element2: fd
 			}),
 			/* Logging the Progress of Uploading */
-			// onUploadProgress: progressEvent => {
-			// 	console.log('Upload Progress' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%');
-			// 	console.log(body);
-			// }
-		}).then(res => res.json())
-			.then(json => {
-				console.log('join', json);
-				if (json.success) {
-					this.setState({
-						uploadError: json.message,
-						audioFile: '',
-						crutchWords: ''
-					});
-					console.log(this.setState);
-				} else {
-					this.setState({
-						uploadError: json.message,
-					});
-					console.log(this.setState);
-				}
-			});
+			onUploadProgress: progressEvent => {
+				console.log('Upload Progress' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%');
+			}
+		})
+			.then(function (data) {
+				console.log('request succeeded with JSON response', data)
+			}).catch(function (error) {
+				console.log('request failed', error)
+			})
+			// .then(res => res.json())
+			// .then(json => {
+			// 	console.log('join', json);
+			// 	if (json.success) {
+			// 		this.setState({
+			// 			uploadError: json.message,
+			// 			selectedFile: ''
+			// 		});
+			// 		console.log(this.setState);
+			// 	} else {
+			// 		this.setState({
+			// 			uploadError: json.message,
+			// 		});
+			// 		console.log(this.setState);
+			// 	}
+			// });
 	}
+
+
 	/* End all of functions */
 
 	render() {
 		const {
 			/* Upload Variables */
 			uploadError,
-			audioFile,
-			crutchWords
+			selectedFile
+			// crutchWords
 		} = this.state;
 		console.log('const variables');
-		console.log(this.state.audioFile);
-		console.log(this.state.crutchWords);
+		console.log(this.state.selectedFile);
+		// console.log(this.state.crutchWords);
 		/* If Audio File & Crutch Words are Not Entered Render these Elements */
 		// if (!audioFile && !crutchWords) {
 			return (
@@ -129,26 +197,9 @@ class TranscribeAudio extends Component {
 															// style={{ display: 'none' }}
 															type='file'
 															bsClass='form-control'
-															value={this.audioFile}
-															onChange={this.onFileChangeAudioFile}
+															value={this.selectedFile}
+															onChange={this.fileSelectedHandler}
 															// ref={fileInput => this.fileInput = fileInput}
-														/>
-													</FormGroup>
-												</Col>
-											</Row>
-											<Row>
-												<Col md={12}>
-													<FormGroup controlId='formControlsTextarea'>
-														<ControlLabel>
-															Enter Your Crutch Words Here
-															</ControlLabel>
-														<FormControl
-															rows='5'
-															componentClass='textarea'
-															bsClass='form-control'
-															placeholder='Please separate each word by a semi colon (ex: word; word; word)'
-															value={this.crutchWords}
-															onChange={this.onTextBoxChangeCrutchWords}
 														/>
 													</FormGroup>
 												</Col>
