@@ -4,6 +4,7 @@ const btoa = require('btoa');
 const key = require('../keys/keys');
 const Transcription = require('../../models/transcriptionModel');
 const User = require('../../models/userModel');
+const UserSession = require('../../models/userSessionModel');
 const AudioFile = require('../../models/audioFileModel');
 const Busboy = require('busboy');
 const busboyPromise = require('busboy-promise');
@@ -14,46 +15,21 @@ const fs = require('fs');
 
 
 module.exports = (app) => {
-
-    app.get('/api/account/users', (req, res, next) => {
-        /* Get Token */
-        /* ?token=test */
-        const { query } = req;
-        const { token } = query;
-
-        /* Get User Who is Saving the Audio */
-        User.findOne({
-            _id: token
-        }, null, (err, doc) => {
-            if (err) {
-                return res.send({
-                    success: false,
-                    message: 'Error: You\'re Lost'
-                });
-            } else {
-                return res.send({
-                    success: true,
-                    message: 'You\'re Found',
-                    firstName: doc.firstName,
-                    lastName: doc.lastName,
-                    email: doc.email,
-                    crutchWords: doc.crutchWords,
-                    countCrutchWords: doc.countCrutchWords,
-                    audioFile: doc.audioFile,
-                    transcription: doc.transcription
-                });
-            }
-        });
-    });
-
     /* Uploading and Transcribing Audio File */
 	app.post('/api/account/upload', function (req, res, next) {
 		/* Use Token in Query Params */
 		const { body } = req.body;
-		/* ?token=test */
-        // const { token } = query;
-		// const { body } = req;
+		// const { userId } = body;
+		// let { transcription } = body;
 
+		/* Error Handling if Audio File is Not Submitted */
+		// if (!transcription) {
+		// 	return res.send({
+		// 		success: false,
+		// 		message: 'Error: Must Upload Audio File!'
+		// 	});
+		// }
+		/* If Audio File is Uploaded Follow the Below */
         const busboy = new Busboy({
             headers: req.headers
         });
@@ -100,14 +76,61 @@ module.exports = (app) => {
 		request(options, function (err, res, body) {
 			if (err) throw new Error(err);
 			/* The File Uploaded Object */
-			console.log(JSON.stringify(body.results));
 			let transcription = {
-				transcription: JSON.stringify(body.results)
+				transcription: JSON.stringify(body.results[0].alternatives[0].transcript)
 			};
-			console.log('transcription: ' + JSON.stringify(body.results[0].alternatives[0].transcript));
+			// console.log('transcription: ' + JSON.stringify(body.results[0].alternatives[0].transcript));
 			console.log(transcription);
-			Transcription.create((transcription))
-			});
+			/* Get Transcription from User */
+			Transcription.create(transcription);
+			/* Save the Transcription to the User's Profile */
+
+			// Transcription.find({
+			// 	transcription: transcription
+			// }, (transcription) => {
+
+			// 		/* Step 2: Save the new user */
+			// 		const newTranscription = new Transcription();
+			// 		// newTranscription.userID = user._id;
+			// 		newTranscription.transcription = transcription;
+			// 		newTranscription.save((err, transcription) => {
+			// 			if (err) {
+			// 				return res.send({
+			// 					success: false,
+			// 					message: err.message
+			// 				});
+			// 			}
+			// 			return res.send({
+			// 				success: true,
+			// 				message: 'Transcription Saved!'
+			// 			});
+			// 		})
+
+
+			// });
+		});
+	}
+}
+
+			// Transcription.create({
+			// 	userId: token,
+			// 	transcription: transcription
+			// })
+
+			// Transcription.findById(id, function (err, users) {
+			// 	User.save((err, users) => {
+			// 		if (err) {
+			// 			return res.send({
+			// 				success: false,
+			// 				message: err.message
+			// 			});
+			// 		}
+			// 		return res.send({
+			// 			success: true,
+			// 			message: 'File Saved!'
+			// 		});
+			// 	});
+			// });
         // console.log('Transcript');
 		// console.log(JSON.stringify(body.results[0].alternatives[0].transcript));
         // console.log('Confidence Level');
@@ -119,38 +142,15 @@ module.exports = (app) => {
         //         message: 'Error: No File!'
         //     });
         // }
-	/* Save the Transcription to the User's Profile */
-		function saveTranscription(transcription) {
-			User.findById(id, function (err, users) {
-				if (err) {
-					return res.send({
-						success: false,
-						message: 'Error: Invalid Password!'
-					});
-					const transcribedAudio = new Transcription();
-					/* Map Transcription to User Profile in MongoDB */
-					transcribedAudio.transcription = transcription;
-					transcribedAudio.save((err, users) => {
-						if (err) {
-							return res.send({
-								success: false,
-								message: err.message
-							});
-						}
-						return res.send({
-							success: true,
-							message: 'File Saved!'
-						});
-					});
-				}
-			});
-		}
-	}
-    /* Get Transcription from User */
+
+		// function saveTranscription(transcription) {
+
+		// }
+
+
 
     /* Find the Crutch Words in Transcription User Identified */
 
     /* Save the Count of How Many Times Transcribed Words appear in Transcription */
 
     /* Get the Transcription and Amount of Times Crutch Words are Said from DB */
-}

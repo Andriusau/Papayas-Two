@@ -13,40 +13,39 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        default: ''
-    },
+		default: '',
+		unique: true,
+		match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
+	},
+	// `email` must be of type String
+	// `email` must be unique
+	// `email` must match the regex pattern below and throws a custom error message if it does not
     password: {
         type: String,
-        default: ''
-    },
-	crutchWords: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: 'CrutchWords',
-			default: ''
-		}
-	],
-	countCrutchWords: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: 'CountCrutchWords',
-			default: ''
-		}
-	],
-	audioFile: [
-		{
-        type: Schema.Types.ObjectId,
-		ref: 'AudioFile',
-		default:''
-		}
-	],
+		default: '',
+		trim: true,
+		validate: [
+			function (input) {
+				return input.length >= 6;
+			},
+			"Password should be longer."
+		]
+	},
+	// `password` must be of type String
+	// `password` will trim leading and trailing whitespace before it's saved
+	// `password` is a required field and throws a custom error message if not supplied
+	// `password` uses a custom validation function to only accept values 6 characters or more
 	transcriptions: [
 		{
+			// Store ObjectIds in the array
         type: Schema.Types.ObjectId,
 		ref: 'Transcription',
 		default:''
 		}
 	],
+	  // `transcriptions` is an array that stores ObjectIds
+	  // The ref property links these ObjectIds to the Transcription model
+	  // This allows us to populate the User with any associated Transcriptions
     isDeleted: {
         type: Boolean,
         default: false
