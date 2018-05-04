@@ -19,7 +19,7 @@ module.exports = (app) => {
 	app.post('/api/account/upload', function (req, res, next) {
 		/* Use Token in Query Params */
 		const { body } = req.body;
-		// const { userId } = body;
+		// const { token } = body;
 		// let { transcription } = body;
 
 		/* Error Handling if Audio File is Not Submitted */
@@ -33,23 +33,26 @@ module.exports = (app) => {
         const busboy = new Busboy({
             headers: req.headers
         });
-        const element1 = req.body.element1;
+		const token = req.body.element1;
+		console.log(token);
         const convertedFile = btoa(req.files.element2.data);
         // console.log(file);
         /* The file upload has completed */
         busboy.on('finish', function() {
             /* Converts File to Base64 */
-            const file = convertedFile;
-
+			const file = convertedFile;
+			// const token = token;
             console.log('Upload finished');
             /* Call googleTranslate Function */
-            googleTranslate(file);
+            googleTranslate(file, token);
         });
 		req.pipe(busboy);
     });
 
-	function googleTranslate(file) {
-    /* Set Up Request to Google Speech API */
+	function googleTranslate(file, token) {
+	/* Set Up Request to Google Speech API */
+		// const { token } = token
+		// console.log(token);
     const options = {
         method: 'POST',
         url: 'https://speech.googleapis.com/v1/speech:recognize',
@@ -77,14 +80,32 @@ module.exports = (app) => {
 			if (err) throw new Error(err);
 			/* The File Uploaded Object */
 			let transcription = {
-				transcription: JSON.stringify(body.results[0].alternatives[0].transcript)
+				transcription: JSON.stringify(body.results[0].alternatives[0].transcript),
+				transcriptionId: token
 			};
 			// console.log('transcription: ' + JSON.stringify(body.results[0].alternatives[0].transcript));
 			console.log(transcription);
-			/* Get Transcription from User */
+			/* Create a the Transcription in the Transcriptions Collection */
 			Transcription.create(transcription);
 			/* Save the Transcription to the User's Profile */
+			const newTranscription = new Transcription({
+				transcription: transcription,
+				transcriptionId: transcription._id
+				// transcriptionId: token
 
+			});
+			newTranscription.save(function () {
+				console.log('transcription saved');
+				console.log(newTranscription._id);
+
+
+				Transcription.findOne({ _id: newTranscription._id })
+					.then(function (dbTranscription) {
+					console.log(dbTranscription);
+				}).catch(function (err) {
+					console.log(err.message);
+				})
+			});
 			// Transcription.find({
 			// 	transcription: transcription
 			// }, (transcription) => {
