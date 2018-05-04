@@ -48,7 +48,11 @@ module.exports = (app) => {
 
     /* Uploading and Transcribing Audio File */
 	app.post('/api/account/upload', function (req, res, next) {
-		const { body, usersId } = req.body;
+		/* Use Token in Query Params */
+		const { body } = req.body;
+		/* ?token=test */
+        // const { token } = query;
+		// const { body } = req;
 
         const busboy = new Busboy({
             headers: req.headers
@@ -85,7 +89,10 @@ module.exports = (app) => {
                 content: file
             },
             config: {
-                "languageCode": "en-US",
+				"languageCode": "en-US",
+				// "speechContext": {
+				// 	"phrases":['like um']
+				// }
             }
         },
         json: true
@@ -93,16 +100,13 @@ module.exports = (app) => {
 		request(options, function (err, res, body) {
 			if (err) throw new Error(err);
 			/* The File Uploaded Object */
-			// console.log(JSON.stringify(body.results));
-			let transcription = { transcription: body.results[0].alternatives[0].transcript};
+			console.log(JSON.stringify(body.results));
+			let transcription = {
+				transcription: JSON.stringify(body.results)
+			};
+			console.log('transcription: ' + JSON.stringify(body.results[0].alternatives[0].transcript));
 			console.log(transcription);
-			Transcription.create(transcription)
-				.then(result => {
-					User.findOneAndUpdate({ _id: usersId }, { $push: { transcriptions: result._id } }, { new: true })
-						.then(data => res.json(result))
-						.catch(err => res.json(err));
-				})
-				// .catch(err => res.json(err));
+			Transcription.create((transcription))
 			});
         // console.log('Transcript');
 		// console.log(JSON.stringify(body.results[0].alternatives[0].transcript));
