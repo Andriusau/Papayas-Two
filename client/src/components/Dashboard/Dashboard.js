@@ -33,6 +33,32 @@ class Dashboard extends Component {
 					<div className='content'>
 						<Grid fluid>
 							<Row>
+							<Col lg={12}>
+									<Card
+										id="chartActivity"
+										title="Crutch Count"
+										category="What am I even saying?"
+										stats="Data information certified"
+										statsIcon="fa fa-check"
+										content={
+											<div className="ct-chart">
+												<ChartistGraph
+													data={dataBar}
+													type="Bar"
+													options={optionsBar}
+													responsiveOptions={responsiveBar}
+												/>
+											</div>
+										}
+										legend={
+											<div className="legend">
+												{this.createLegend(legendBar)}
+											</div>
+										}
+									/>
+								</Col>
+							</Row>
+							<Row>
 								<Col lg={3} sm={6}>
 									<StatsCard
 										bigIcon={<i className='pe-7s-server text-warning'></i>}

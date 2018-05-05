@@ -527,8 +527,10 @@ var legendSales = {
 
 // Data for Bar Chart
 var dataBar = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  series: [
+//   labels: ['just','almost','basically','actually','definitely','literally','really','very','truly','essentially','seriously','totally','honestly','obviously','so','anyway','well','right','okay','well','great','fantastic','awesome','excellent','definite','like','up','presently'],
+  labels: ['just','almost','basically','actually','definitely','literally','really','very','truly','essentially','seriously','totally'],
+
+series: [
     [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
     [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
   ]
