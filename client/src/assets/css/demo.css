@@ -406,36 +406,36 @@
   color: #ffffff;
   opacity: 1;
 }
-.btn-twitter {
+.btn-pe-7s-cloud-upload {
   border-color: #55acee;
   color: #55acee;
 }
-.btn-twitter:hover,
-.btn-twitter:focus,
-.btn-twitter:active,
-.btn-twitter.active,
-.open > .btn-twitter.dropdown-toggle {
+.btn-pe-7s-cloud-upload:hover,
+.btn-pe-7s-cloud-upload:focus,
+.btn-pe-7s-cloud-upload:active,
+.btn-pe-7s-cloud-upload.active,
+.open > .btn-pe-7s-cloud-upload.dropdown-toggle {
   background-color: transparent;
   color: #55acee;
   border-color: #55acee;
   opacity: 1;
 }
-.btn-twitter:disabled,
-.btn-twitter[disabled],
-.btn-twitter.disabled {
+.btn-pe-7s-cloud-upload:disabled,
+.btn-pe-7s-cloud-upload[disabled],
+.btn-pe-7s-cloud-upload.disabled {
   background-color: transparent;
   border-color: #55acee;
 }
-.btn-twitter.btn-fill {
+.btn-pe-7s-cloud-upload.btn-fill {
   color: #ffffff;
   background-color: #55acee;
   opacity: 0.9;
 }
-.btn-twitter.btn-fill:hover,
-.btn-twitter.btn-fill:focus,
-.btn-twitter.btn-fill:active,
-.btn-twitter.btn-fill.active,
-.open > .btn-twitter.btn-fill.dropdown-toggle {
+.btn-pe-7s-cloud-upload.btn-fill:hover,
+.btn-pe-7s-cloud-upload.btn-fill:focus,
+.btn-pe-7s-cloud-upload.btn-fill:active,
+.btn-pe-7s-cloud-upload.btn-fill.active,
+.open > .btn-pe-7s-cloud-upload.btn-fill.dropdown-toggle {
   background-color: #55acee;
   color: #ffffff;
   opacity: 1;

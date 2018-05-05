@@ -3,6 +3,7 @@ require('dotenv').config();
 const btoa = require('btoa');
 const key = require('../keys/keys');
 const Transcription = require('../../models/transcriptionModel');
+const CrutchWords = require('../../models/crutchWordsModel');
 const User = require('../../models/userModel');
 const UserSession = require('../../models/userSessionModel');
 const AudioFile = require('../../models/audioFileModel');
@@ -64,6 +65,7 @@ module.exports = (app) => {
 		request(options, function (err, res, body) {
 			if (err) throw new Error(err);
 			/* The File Uploaded Object */
+			console.log(JSON.stringify(body.results));
 			let transcription = {
 				transcription: JSON.stringify(body.results[0].alternatives[0].transcript),
 				transcriptionId: token
@@ -98,8 +100,10 @@ module.exports = (app) => {
 					.then(function (result) {
 						console.log(result);
 						/* Call Crutch Words Promise Function Here */
-						console.log('This is the Transcription to Pass Into the Function');
-						console.log(transcription.transcription);
+						let finalT = transcription.transcription.toLowerCase();
+						getCrutchWords(finalT);
+
+
 					}).catch(function (err) {
 						console.log(err.message);
 					})
@@ -107,6 +111,150 @@ module.exports = (app) => {
 			});
 		} /* End Google Transcription Function */
 
+		/* Find the Crutch Words in Transcription User Identified */
+    // var transcript  = " hello I wonder if this will work and something will happen and then something else will happen and name name name wonder wonder this";
+
+
+    function getCrutchWords(transcript) {
+    	const crutchWords = [{
+                "word": "just",
+                "count": 0
+            },
+            {
+                "word": "almost",
+                "count": 0
+            },
+            {
+                "word": "basically",
+                "count": 0
+            },
+            {
+                "word": "actually",
+                "count": 0
+            },
+            {
+                "word": "definitely",
+                "count": 0
+            },
+            {
+                "word": "literally",
+                "count": 0
+            },
+            {
+                "word": "really",
+                "count": 0
+            },
+            {
+                "word": "very",
+                "count": 0
+            },
+            {
+                "word": "truly",
+                "count": 0
+            },
+            {
+                "word": "essentially",
+                "count": 0
+            },
+            {
+                "word": "seriously",
+                "count": 0
+            },
+            {
+                "word": "totally",
+                "count": 0
+            },
+            {
+                "word": "honestly",
+                "count": 0
+            },
+            {
+                "word": "obviously",
+                "count": 0
+            },
+            {
+                "word": "so",
+                "count": 0
+            },
+            {
+                "word": "anyway",
+                "count": 0
+            },
+            {
+                "word": "well",
+                "count": 0
+            },
+            {
+                "word": "right",
+                "count": 0
+            },
+            {
+                "word": "okay",
+                "count": 0
+            },
+            {
+                "word": "well",
+                "count": 0
+            },
+            {
+                "word": "great",
+                "count": 0
+            },
+            {
+                "word": "fantastic",
+                "count": 0
+            },
+            {
+                "word": "awesome",
+                "count": 0
+            },
+            {
+                "word": "excellent",
+                "count": 0
+            },
+            {
+                "word": "definite",
+                "count": 0
+            },
+            {
+                "word": "like",
+                "count": 0
+            },
+            {
+                "word": "up",
+                "count": 0
+            },
+            {
+                "word": "presently",
+                "count": 0
+            }
+        ];
+
+        let crutchSaid = [];
+        let crutchCount;
+        let crutchReturn = [];
+
+
+        if (crutchWords.length > 0) {
+            for (let i = 0; i < crutchWords.length; i++) {
+                const rgxp = new RegExp("(\\S*)?(" + crutchWords[i].word + ")(\\S*)?", "ig");
+
+                crutchCount = (transcript.split(crutchWords[i].word).length - 1);
+                transcript.replace(rgxp, function(match, $1, $2, $3) {
+                    crutchSaid.push(($1 || "") + $2 + ($3 || ""));
+
+                });
+                //console.log(crutchWords[i] + " " + crutchCount);
+                crutchReturn.push(crutchWords[i].count = crutchCount);
+            }
+        }
+		console.log(crutchWords);
+		CrutchWords.create(crutchWords);
+        //   return crutchWords;
+        // uniqueify crutchSaid
+        // counting the occourances of the unqiued words in crutchSaid
+        // store count in crutchCount
+    }
 		/* Find the Crutch Words in Transcription User Identified */
 
 	/* Save the Count of How Many Times Transcribed Words appear in Transcription */

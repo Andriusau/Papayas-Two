@@ -62,7 +62,7 @@ class Dashboard extends Component {
 								</Col>
 								<Col lg={3} sm={6}>
 									<StatsCard
-										bigIcon={<i className="fa fa-twitter text-info"></i>}
+										bigIcon={<i className="pe-7s-cloud-upload"></i>}
 										statsText="Followers"
 										statsValue="+45"
 										statsIcon={<i className="fa fa-refresh"></i>}

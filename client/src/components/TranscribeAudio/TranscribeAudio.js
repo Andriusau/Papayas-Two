@@ -21,7 +21,8 @@ class TranscribeAudio extends Component {
 			element1: '',
 			element2: '',
 			uploadError: '',
-			selectedFile: null
+			selectedFile: null,
+			transcription: []
 		}
 		/* Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor */
 		this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
@@ -91,14 +92,16 @@ class TranscribeAudio extends Component {
 		}
 		let req = new Request(uri, options);
 
-		fetch(req).then((response) => {
-			if (response.ok) {
-				return response.json();
+		fetch(req).then((res) => {
+			if (res.ok) {
+				return res;
+				console.log('^^^^ response returned')
 			} else {
 				throw new Error('Bad HTTP!')
 			}
-		}).then((j) => {
-			console.log(j);
+		})
+		.then((j) => {
+			console.log('j:', j);
 		}).catch((err) => {
 			console.log('ERROR:', err.message);
 		});

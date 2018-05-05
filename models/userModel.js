@@ -46,7 +46,15 @@ const UserSchema = new mongoose.Schema({
 	  // `transcriptions` is an array that stores ObjectIds
 	  // The ref property links these ObjectIds to the Transcription model
 	  // This allows us to populate the User with any associated Transcriptions
-    isDeleted: {
+	  crutchWords: [
+		{
+			// Store ObjectIds in the array
+        type: Schema.Types.ObjectId,
+		ref: 'CrutchWords',
+		default:''
+		}
+	],
+	isDeleted: {
         type: Boolean,
         default: false
     }
