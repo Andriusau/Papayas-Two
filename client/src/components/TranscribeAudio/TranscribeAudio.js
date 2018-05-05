@@ -73,9 +73,12 @@ class TranscribeAudio extends Component {
 		const obj = getFromStorage('papayas_app');
             const { token } = obj;
 
-		/* POST Request to Backend. */
-		const root = 'http://localhost:3001';
-		let uri = root + '/api/account/upload';
+		/* POST Request to Backend in Development. */
+		// const root = 'http://localhost:3001';
+		// let uri = root + '/api/account/upload';
+
+		/* POST Request to Backend in Production. */
+		let uri = '/api/account/upload';
 
 		let formData = new FormData();
 		formData.append('element1', token);
