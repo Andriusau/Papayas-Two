@@ -7,8 +7,10 @@ const mongoose = require('mongoose');
 const busboy = require('connect-busboy');
 const Busboy = require('busboy');
 const busboyBodyParser = require('busboy-body-parser');
-
+const cors = require('cors')
 /* Middleware */
+app.use(cors());
+
 app.use(busboy());
 app.use(busboyBodyParser());
 

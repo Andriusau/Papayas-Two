@@ -9,7 +9,7 @@ const AudioFile = require('../../models/audioFileModel');
 const Busboy = require('busboy');
 const busboyPromise = require('busboy-promise');
 const speech = require('@google-cloud/speech');
-const request = require("request");
+const request = require('request');
 const fs = require('fs');
 
 
@@ -19,29 +19,19 @@ module.exports = (app) => {
 	app.post('/api/account/upload', function (req, res, next) {
 		/* Use Token in Query Params */
 		const { body } = req.body;
-		// const { token } = body;
-		// let { transcription } = body;
 
-		/* Error Handling if Audio File is Not Submitted */
-		// if (!transcription) {
-		// 	return res.send({
-		// 		success: false,
-		// 		message: 'Error: Must Upload Audio File!'
-		// 	});
-		// }
 		/* If Audio File is Uploaded Follow the Below */
         const busboy = new Busboy({
-            headers: req.headers
-        });
+			headers: req.headers
+		});
 		const token = req.body.element1;
 		console.log(token);
         const convertedFile = btoa(req.files.element2.data);
-        // console.log(file);
+
         /* The file upload has completed */
         busboy.on('finish', function() {
             /* Converts File to Base64 */
 			const file = convertedFile;
-			// const token = token;
             console.log('Upload finished... Starting Translation');
             /* Call googleTranslate Function */
             googleTranslate(file, token);
@@ -51,11 +41,9 @@ module.exports = (app) => {
 
 	function googleTranslate(file, token) {
 	/* Set Up Request to Google Speech API */
-		// const { token } = token
-		// console.log(token);
     const options = {
         method: 'POST',
-        url: 'https://cors-anywhere.herokuapp.com/https://speech.googleapis.com/v1/speech:recognize',
+        url: 'https://speech.googleapis.com/v1/speech:recognize',
         qs: {
             key: 'AIzaSyBmBNjnnHCRvNv8pdo_90qo5Fu-hjdIz8M'
         },
@@ -68,10 +56,7 @@ module.exports = (app) => {
                 content: file
             },
             config: {
-				"languageCode": "en-US",
-				// "speechContext": {
-				// 	"phrases":['like um']
-				// }
+				'languageCode': 'en-US',
             }
         },
         json: true
@@ -83,7 +68,7 @@ module.exports = (app) => {
 				transcription: JSON.stringify(body.results[0].alternatives[0].transcript),
 				transcriptionId: token
 			};
-			// console.log('transcription: ' + JSON.stringify(body.results[0].alternatives[0].transcript));
+
 			/* Create a the Transcription in the Transcriptions Collection */
 			Transcription.create(transcription);
 			/* Save the Transcription to the User's Profile */
@@ -98,11 +83,10 @@ module.exports = (app) => {
 				console.log('transcription saved');
 				console.log(newTranscription);
 				console.log(newTranscription._id);
-				console.log(transcription.transcriptionId);
 
 
 				User.findOneAndUpdate({
-					// This has to be Equal to the User's Object ID
+					/* This has to be Equal to the User's Object ID */
 						_id: transcription.transcriptionId
 					}, {
 						$push: {
@@ -118,67 +102,9 @@ module.exports = (app) => {
 						console.log(err.message);
 					})
 				});
-			// Transcription.find({
-			// 	transcription: transcription
-			// }, (transcription) => {
-
-			// 		/* Step 2: Save the new user */
-			// 		const newTranscription = new Transcription();
-			// 		// newTranscription.userID = user._id;
-			// 		newTranscription.transcription = transcription;
-			// 		newTranscription.save((err, transcription) => {
-			// 			if (err) {
-			// 				return res.send({
-			// 					success: false,
-			// 					message: err.message
-			// 				});
-			// 			}
-			// 			return res.send({
-			// 				success: true,
-			// 				message: 'Transcription Saved!'
-			// 			});
-			// 		})
-
-
-			// });
 		});
 	}
 }
-
-			// Transcription.create({
-			// 	userId: token,
-			// 	transcription: transcription
-			// })
-
-			// Transcription.findById(id, function (err, users) {
-			// 	User.save((err, users) => {
-			// 		if (err) {
-			// 			return res.send({
-			// 				success: false,
-			// 				message: err.message
-			// 			});
-			// 		}
-			// 		return res.send({
-			// 			success: true,
-			// 			message: 'File Saved!'
-			// 		});
-			// 	});
-			// });
-        // console.log('Transcript');
-		// console.log(JSON.stringify(body.results[0].alternatives[0].transcript));
-        // console.log('Confidence Level');
-        // console.log(JSON.stringify(body.results[0].alternatives[0].confidence));
-
-		// if (!transcription) {
-        //     return res.send({
-        //         success: false,
-        //         message: 'Error: No File!'
-        //     });
-        // }
-
-		// function saveTranscription(transcription) {
-
-		// }
 
 
 

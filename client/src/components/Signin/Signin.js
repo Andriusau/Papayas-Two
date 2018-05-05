@@ -167,15 +167,15 @@ class Signin extends Component {
 					}
 					<h1>Sign In!</h1>
 					<input
-						type="email"
-						placeholder="Email"
+						type='email'
+						placeholder='Email'
 						value={signInEmail}
 						onChange={this.onTextboxChangeSignInEmail}
 					/>
 					<br />
 					<input
-						type="password"
-						placeholder="Password"
+						type='password'
+						placeholder='Password'
 						value={signInPassword}
 						onChange={this.onTextboxChangeSignInPassword}
 					/>

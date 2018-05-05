@@ -9,7 +9,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import { Card } from '../Card/Card';
 import { UserCard } from '../UserCard/UserCard';
 import { getFromStorage } from '../utils/storage';
-// import { appendFile } from 'fs';
+
 
 class TranscribeAudio extends Component {
 	constructor(props) {
@@ -23,18 +23,15 @@ class TranscribeAudio extends Component {
 			uploadError: '',
 			selectedFile: null
 		}
-		// Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor
-		// this.onTextBoxChangeCrutchWords = this.onTextBoxChangeCrutchWords.bind(this);
+		/* Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor */
 		this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
 	}
 	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
 	componentDidMount() {
 		const obj = getFromStorage('papayas_app');
 		if (obj && obj.token) {
-			const {
-				token
-			} = obj;
-			console.log(obj);
+			const { token } = obj;
+			console.log('token: \n' + token);
 			/* Verify Token */
 			fetch('/api/account/verify?token=' + token)
 				.then(res => res.json())
@@ -57,105 +54,51 @@ class TranscribeAudio extends Component {
 		}
 	}
 
-	// state = {
-	// 	selectedFile: null
-	// }
-
+	/* Get the Select a File from Upload */
 	fileSelectedHandler = event => {
 		this.setState({
 			selectedFile: event.target.files[0]
 		});
-		// console.log(event.target.files[0]);
+		console.log(event.target.files);
 	}
-
-// 	function checkStatus(response) {
-// 	if (response.status >= 200 && response.status < 300) {
-// 		return response
-// 	} else {
-// 		var error = new Error(response.statusText)
-// 		error.response = response
-// 		throw error
-// 	}
-// }
-// function parseJSON(response) {
-// 	return response.json()
-// }
-	/* Get Crutch Words from Text Area */
-	// onTextBoxChangeCrutchWords(event) {
-	// 	this.setState({
-	// 		crutchWords: event.target.value
-	// 	});
-	// }
-	/* Get the Select a File from Upload */
-	// onFileChangeAudioFile = event => {
-	// 	this.setState({
-	// 		audioFile: event.target.files[0]
-	// 	});
-	// 	console.log(event.target.files[0]);
-	// 	// console.log(event.target.files[0].name);
-	// 	// console.log(event.target.files[0].size);
-	// }
 
 	/* Take Uploaded File & Send to the Back End */
 	fileUploadHandler = () => {
 		/* Grab State */
-		// const {
-        //     selectedFile
-		// } = this.state;
-		// console.log(this.state.selectedFile);
-		console.log(this.state.token);
-
 		this.setState({
 			isLoading: true,
 		});
 
-		const fd = new FormData();
 		/* Send File to Backend Server for Transcribing */
-		fd.append('file',
-			this.state.selectedFile);
-		// console.log(this.state.selectedFile);
-
 		const obj = getFromStorage('papayas_app');
             const { token } = obj;
-			console.log(obj);
+
 		/* POST Request to Backend. */
-		fetch('/api/account/upload/', {
+		const root = 'http://localhost:3001';
+		let uri = root + '/api/account/upload';
+
+		let formData = new FormData();
+		formData.append('element1', token);
+		formData.append('element2', this.state.selectedFile);
+
+		let options = {
 			method: 'POST',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body:
-				JSON.stringify({
-					element1: token,
-					element2: fd
-			}),
-			/* Logging the Progress of Uploading */
-			onUploadProgress: progressEvent => {
-				console.log('Upload Progress' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%');
+			mode: 'cors',
+			body: formData
+		}
+		let req = new Request(uri, options);
+
+		fetch(req).then((response) => {
+			if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error('Bad HTTP!')
 			}
-		})
-			.then(function (data) {
-				console.log('request succeeded with JSON response', data)
-			}).catch(function (error) {
-				console.log('request failed', error)
-			})
-			// .then(res => res.json())
-			// .then(json => {
-			// 	console.log('join', json);
-			// 	if (json.success) {
-			// 		this.setState({
-			// 			uploadError: json.message,
-			// 			selectedFile: ''
-			// 		});
-			// 		console.log(this.setState);
-			// 	} else {
-			// 		this.setState({
-			// 			uploadError: json.message,
-			// 		});
-			// 		console.log(this.setState);
-			// 	}
-			// });
+		}).then((j) => {
+			console.log(j);
+		}).catch((err) => {
+			console.log('ERROR:', err.message);
+		});
 	}
 
 
@@ -164,13 +107,10 @@ class TranscribeAudio extends Component {
 	render() {
 		const {
 			/* Upload Variables */
-			uploadError,
-			selectedFile
-			// crutchWords
+			uploadError
 		} = this.state;
-		console.log('const variables');
+		console.log('Selected File:');
 		console.log(this.state.selectedFile);
-		// console.log(this.state.crutchWords);
 		/* If Audio File & Crutch Words are Not Entered Render these Elements */
 		// if (!audioFile && !crutchWords) {
 			return (
