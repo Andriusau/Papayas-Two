@@ -488,16 +488,16 @@ var legendPie = {
 
 // Data for Line Chart
 var dataSales = {
-  labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Aug', 'Sept', ' Oct', 'Nov', 'Dec'],
   series: [
-     [287, 385, 490, 492, 554, 586, 698, 695],
-    [67, 152, 143, 240, 287, 335, 435, 437],
-    [23, 113, 67, 108, 190, 239, 307, 308]
+     [2, 3, 9, 9, 5, 6, 6, 9],
+    [6, 2, 1, 0, 7, 5, 5, 7],
+    [2, 1, 7, 1, 1, 3, 3, 8]
   ]
 };
 var optionsSales = {
   low: 0,
-  high: 800,
+  high: 30,
   showArea: false,
   height: "245px",
   axisX: {
@@ -553,7 +553,7 @@ var responsiveBar = [
   }]
 ];
 var legendBar = {
-    names: ["Tesla Model S","BMW 5 Series"],
+    names: ["Meaningful Content","Filler Words"],
     types: ["info","danger"]
 };
 
