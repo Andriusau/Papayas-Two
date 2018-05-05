@@ -73,7 +73,7 @@ module.exports = (app) => {
 			Transcription.create(transcription);
 			/* Save the Transcription to the User's Profile */
 			console.log(transcription);
-			console.log(transcription.transcription);
+			// console.log(transcription.transcription);
 			console.log(transcription.transcriptionId);
 
 			const newTranscription = new Transcription(
@@ -97,7 +97,9 @@ module.exports = (app) => {
 					})
 					.then(function (result) {
 						console.log(result);
-						/* Call Crutch Words Function Here */
+						/* Call Crutch Words Promise Function Here */
+						console.log('This is the Transcription to Pass Into the Function');
+						console.log(transcription.transcription);
 					}).catch(function (err) {
 						console.log(err.message);
 					})
