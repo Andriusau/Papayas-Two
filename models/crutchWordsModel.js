@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const crutchWordsSchema = new Schema({
 	word: String,
 	count: Number,
+	crutchWordsId: String,
 	default: 0
 });
 

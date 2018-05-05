@@ -30,34 +30,34 @@ module.exports = (app) => {
 	});
 	/* End Verify Token */
 
-	app.get('/api/account/users', (req, res, next) => {
-		/* Get Token */
-		/* ?token=test */
-		const {query} = req;
-		const {token} = query;
+	// app.get('/api/account/users', (req, res, next) => {
+	// 	/* Get Token */
+	// 	/* ?token=test */
+	// 	const {query} = req;
+	// 	const {token} = query;
 
-		/* Get User Who is Saving the Audio */
-		User.findOne({
-			_id: token
-		}, null, (err, doc) => {
-			if (err) {
-				return res.send({
-					success: false,
-					message: 'Error: You\'re Lost'
-				});
-			} else {
-				return res.send({
-					success: true,
-					message: 'You\'re Found',
-					firstName: doc.firstName,
-					lastName: doc.lastName,
-					email: doc.email,
-					crutchWords: doc.crutchWords,
-					countCrutchWords: doc.countCrutchWords,
-					audioFile: doc.audioFile,
-					transcription: doc.transcription
-				});
-			}
-		});
-	});
+	// 	/* Get User Who is Saving the Audio */
+	// 	User.findOne({
+	// 		_id: token
+	// 	}, null, (err, doc) => {
+	// 		if (err) {
+	// 			return res.send({
+	// 				success: false,
+	// 				message: 'Error: You\'re Lost'
+	// 			});
+	// 		} else {
+	// 			return res.send({
+	// 				success: true,
+	// 				message: 'You\'re Found',
+	// 				firstName: doc.firstName,
+	// 				lastName: doc.lastName,
+	// 				email: doc.email,
+	// 				crutchWords: doc.crutchWords,
+	// 				countCrutchWords: doc.countCrutchWords,
+	// 				audioFile: doc.audioFile,
+	// 				transcription: doc.transcription
+	// 			});
+	// 		}
+	// 	});
+	// });
 }

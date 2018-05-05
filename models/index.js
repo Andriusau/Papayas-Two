@@ -1,6 +1,6 @@
 module.exports = {
     User: require('./userModel'),
 	UserSession: require('./userSessionModel'),
-	AudioFile: require('./audioFileModel'),
+	GetAll: require('./getAllModel'),
     Transcription: require('./transcriptionModel')
 };

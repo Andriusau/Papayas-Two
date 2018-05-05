@@ -6,7 +6,6 @@ const Transcription = require('../../models/transcriptionModel');
 const CrutchWords = require('../../models/crutchWordsModel');
 const User = require('../../models/userModel');
 const UserSession = require('../../models/userSessionModel');
-const AudioFile = require('../../models/audioFileModel');
 const Busboy = require('busboy');
 const busboyPromise = require('busboy-promise');
 const speech = require('@google-cloud/speech');
@@ -97,17 +96,21 @@ module.exports = (app) => {
 					}, {
 						new: true
 					})
-					.then(function (result) {
-						console.log(result);
+					.then(function (result, _id) {
+						console.log(JSON.stringify(body.results));
+						JSON.stringify(body.results);
+
 						/* Call Crutch Words Promise Function Here */
 						let finalT = transcription.transcription.toLowerCase();
-						getCrutchWords(finalT);
+						console.log(token);
+						getCrutchWords(finalT, token);
 
 
 					}).catch(function (err) {
 						console.log(err.message);
 					})
 				});
+				/* Make the Response from Our Request */
 			});
 		} /* End Google Transcription Function */
 
@@ -115,141 +118,205 @@ module.exports = (app) => {
     // var transcript  = " hello I wonder if this will work and something will happen and then something else will happen and name name name wonder wonder this";
 
 
-    function getCrutchWords(transcript) {
+	function getCrutchWords(transcript, token) {
+		console.log('Token Passed in Associated to UserSession, also Token and also transcriptionId::');
+		console.log(token);
     	const crutchWords = [{
                 "word": "just",
-                "count": 0
+				"count": 0,
+				crutchWordsId: token
             },
             {
                 "word": "almost",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "basically",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "actually",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "definitely",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "literally",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "really",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "very",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "truly",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "essentially",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "seriously",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "totally",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "honestly",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "obviously",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "so",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "anyway",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "well",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "right",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "okay",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "well",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "great",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "fantastic",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "awesome",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "excellent",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "definite",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "like",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "up",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             },
             {
                 "word": "presently",
-                "count": 0
+                "count": 0,
+                crutchWordsId: token
             }
         ];
 
         let crutchSaid = [];
         let crutchCount;
-        let crutchReturn = [];
+		let crutchReturn = [];
 
 
         if (crutchWords.length > 0) {
             for (let i = 0; i < crutchWords.length; i++) {
                 const rgxp = new RegExp("(\\S*)?(" + crutchWords[i].word + ")(\\S*)?", "ig");
 
-                crutchCount = (transcript.split(crutchWords[i].word).length - 1);
+				crutchCount = (transcript.split(crutchWords[i].word).length - 1);
+
                 transcript.replace(rgxp, function(match, $1, $2, $3) {
                     crutchSaid.push(($1 || "") + $2 + ($3 || ""));
 
                 });
                 //console.log(crutchWords[i] + " " + crutchCount);
-                crutchReturn.push(crutchWords[i].count = crutchCount);
+				crutchReturn.push(crutchWords[i].count = crutchCount);
+
+
             }
         }
 		console.log(crutchWords);
 		CrutchWords.create(crutchWords);
+
+		// const newCrutchWords = new CrutchWords({
+		// 	word: crutchWords,
+		// 	count: crutchCount,
+		// 	crutchWordsId: token
+		// });
+
+		// crutchWords.save(function () {
+		// 	console.log('transcription saved');
+		// 	console.log(newCrutchWords);
+		// 	console.log(newCrutchWords._id);
+
+
+		// 	User.findOneAndUpdate({
+		// 			/* This has to be Equal to the User's Object ID */
+		// 			_id: newCrutchWords.crutchWordsId
+		// 		}, {
+		// 			$push: {
+		// 				transcriptions: newCrutchWords.word
+		// 			}
+		// 		}, {
+		// 			new: true
+		// 		})
+		// 		.then(function (result) {
+		// 			console.log(JSON.stringify(body.results));
+		// 			JSON.stringify(body.results);
+
+		// 		}).catch(function (err) {
+		// 			console.log(err.message);
+		// 		})
+		// });
         //   return crutchWords;
         // uniqueify crutchSaid
         // counting the occourances of the unqiued words in crutchSaid
