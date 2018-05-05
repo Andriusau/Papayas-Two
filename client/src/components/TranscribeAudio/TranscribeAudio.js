@@ -74,11 +74,11 @@ class TranscribeAudio extends Component {
             const { token } = obj;
 
 		/* POST Request to Backend in Development. */
-		// const root = 'http://localhost:3001';
-		// let uri = root + '/api/account/upload';
+		const root = 'http://localhost:3001';
+		let uri = root + '/api/account/upload';
 
 		/* POST Request to Backend in Production. */
-		let uri = '/api/account/upload';
+		// let uri = '/api/account/upload';
 
 		let formData = new FormData();
 		formData.append('element1', token);

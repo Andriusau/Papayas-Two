@@ -97,19 +97,18 @@ module.exports = (app) => {
 					})
 					.then(function (result) {
 						console.log(result);
-
+						/* Call Crutch Words Function Here */
 					}).catch(function (err) {
 						console.log(err.message);
 					})
 				});
-		});
-	}
+			});
+		} /* End Google Transcription Function */
+
+		/* Find the Crutch Words in Transcription User Identified */
+
+	/* Save the Count of How Many Times Transcribed Words appear in Transcription */
+
+	/* Get the Transcription and Amount of Times Crutch Words are Said from DB */
 }
 
-
-
-    /* Find the Crutch Words in Transcription User Identified */
-
-    /* Save the Count of How Many Times Transcribed Words appear in Transcription */
-
-    /* Get the Transcription and Amount of Times Crutch Words are Said from DB */
