@@ -70,7 +70,20 @@ module.exports = (app) => {
 	request(options, function (err, results, body) {
 			if (err) throw new Error(err);
 			/* The File Uploaded Object */
-			console.log(JSON.stringify(body.results));
+		// console.log(JSON.stringify(body.results));
+		// console.log('==========================');
+		// 	for (var i = 0; i < body.results.length; i++) {
+		// 		console.log(JSON.stringify(body.results[i]));
+		// 	}
+		console.log('==========================');
+		for (var i = 0; i < body.results.length; i++) {
+			// console.log(JSON.stringify(body.results[i]));
+			// console.log('==========================');
+			for (var j = 0; j < body.results[i].alternatives.length; j++) {
+				console.log(JSON.stringify(body.results[i].alternatives[j]));
+			}
+		}
+		console.log('==========================');
 			let transcription = {
 				transcription: JSON.stringify(body.results[0].alternatives[0].transcript),
 				// transcription: JSON.stringify(body.results),
