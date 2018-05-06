@@ -303,7 +303,7 @@ module.exports = (app) => {
 		console.log(crutchWords);
 		CrutchWords.create(crutchWords);
     }
-		/* Find the Crutch Words in Transcription User Identified */
+	/* Find the Crutch Words in Transcription User Identified */
 
 	/* Save the Count of How Many Times Transcribed Words appear in Transcription */
 

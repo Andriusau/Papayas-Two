@@ -79,11 +79,11 @@ class TranscribeAudio extends Component {
             const { token } = obj;
 
 		/* POST Request to Backend in Development. */
-		const root = 'http://localhost:3001';
-		let uri = root + '/api/account/upload';
+		// const root = 'http://localhost:3001';
+		// let uri = root + '/api/account/upload';
 
 		/* POST Request to Backend in Production. */
-		// let uri = '/api/account/upload';
+		let uri = '/api/account/upload';
 
 		const formData = new FormData();
 		formData.append('element1', token);
@@ -93,78 +93,31 @@ class TranscribeAudio extends Component {
 			method: 'POST',
 			mode: 'cors',
 			body: formData
-			// body: JSON.stringify(formData)
 		}
 		const req = new Request(uri, options);
 		console.log(options.body);
 
-		// const res = await fetch(req);
-		// const status = await response.status;
 		fetch(req)
 			.then(res => res.json())
-			// .then(json => {
-			// 	console.log('json', json);
-			// })
-			// .catch(function (error) {
-			// 	console.log('request failed', error)
-			// });
-
-		// fetch(req)
-		// 	.then(checkStatus)
-		// 	.then(parseJSON)
-		// 	.then(function (response) {
-		// 		console.log('request succeeded with JSON response', response)
-		// 	})
-		// 	.catch(function (error) {
-		// 		console.log('request failed', error)
-		// 	});
-
-		// function checkStatus(response) {
-		// 	if (response.status >= 200 && response.status < 300) {
-		// 		this.fetchAll();
-		// 	} else {
-		// 		var error = new Error(response.statusText)
-		// 		error.response = response
-		// 		throw error
-		// 	}
-		// }
-
-		// function parseJSON(response) {
-		// 	return response.json()
-		// }
-		// 	if(json.success){
-		// 		this.setState({
-		// 			transcription:'',
-		// 			isLoading:false
-		// 		});
-		// 	}else{
-		// 		this.setState({
-		// 			signInError: json.message,
-		// 			isLoading: false
-		// 		})
-		// 	}
-		// })
-			// .then(res => res.json())
-			// .then(json => {
-			// 		if (json.success) {
-			// 			this.setState({
-			// 				transcription: json.alternatives[0].transcript,
-			// 				isLoading: false
-			// 			});
-			// 		} else {
-			// 			this.setState({
-			// 				isLoading: false
-			// 			});
-			// 		}
-			// })
-		// 	.catch((err) => {
-		// 		console.log('ERROR:', err.message);
-		// 	})
-		// .then((j) => {
-		// 	console.log('j:', j);
-		// }).catch((err) => {
-		// 	console.log('ERROR:', err.message);
-		// });
+			.then(json => {
+				console.log('json:', json);
+				console.log('transcription:', json.transcription);
+					if(json.success){
+						this.setState({
+							transcription: json.transcription,
+							isLoading: false
+						});
+						console.log(this.state);
+					}else{
+						this.setState({
+							signInError: json.message,
+							isLoading: false
+						})
+					}
+			})
+			.catch(function (error) {
+				console.log('request failed', error)
+			});
 	}
 
 
@@ -260,6 +213,7 @@ class TranscribeAudio extends Component {
 		return (
 			<div className="TranscriptionItems">
 				<h3>Latest Transcriptions</h3>
+				<p>{this.state.transcription}</p>
 			</div>
 		);
 	}
