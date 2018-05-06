@@ -16,7 +16,7 @@ const fs = require('fs');
 
 module.exports = (app) => {
     /* Uploading and Transcribing Audio File */
-	app.post('/api/account/upload', function (req, res, next) {
+	app.post('/api/account/upload', async function (req, res, next) {
 		/* Use Token in Query Params */
 		const { body } = req.body;
 
@@ -29,17 +29,19 @@ module.exports = (app) => {
         const convertedFile = btoa(req.files.element2.data);
 
         /* The file upload has completed */
-        busboy.on('finish', function() {
-            /* Converts File to Base64 */
+		busboy.on('finish', function () {
+			/* Converts File to Base64 */
 			const file = convertedFile;
-            console.log('Upload finished... Starting Translation');
-            /* Call googleTranslate Function */
-            googleTranslate(file, token);
-        });
-		req.pipe(busboy);
-    });
+			console.log('Upload finished... Starting Translation');
+			/* Call googleTranslate Function */
+			googleTranslate(file, token)
+		})
+		req.pipe(busboy)
 
-	function googleTranslate(file, token) {
+
+
+
+	async function googleTranslate(file, token) {
 	/* Set Up Request to Google Speech API */
     const options = {
         method: 'POST',
@@ -60,15 +62,20 @@ module.exports = (app) => {
             }
         },
         json: true
-    };
-		request(options, function (err, res, body) {
+	};
+
+	// const res = await (request);
+	// const status = await res.status;
+
+	request(options, function (err, results, body) {
 			if (err) throw new Error(err);
 			/* The File Uploaded Object */
 			console.log(JSON.stringify(body.results));
 			let transcription = {
 				transcription: JSON.stringify(body.results[0].alternatives[0].transcript),
+				// transcription: JSON.stringify(body.results),
 				transcriptionId: token
-			};
+		};
 
 			/* Create a the Transcription in the Transcriptions Collection */
 			Transcription.create(transcription);
@@ -103,21 +110,30 @@ module.exports = (app) => {
 						/* Call Crutch Words Promise Function Here */
 						let finalT = transcription.transcription.toLowerCase();
 						console.log(token);
-						getCrutchWords(finalT, token);
-
-
-					}).catch(function (err) {
-						console.log(err.message);
+						getCrutchWords(finalT, token)
+						/* Make the Response from Our Request */
+						Transcription.findOne({
+							_id: newTranscription._id
+						},
+							function (err, doc) {
+								if (err) {
+									return res.send({
+										success: false,
+										message: 'Error: Server Error During Sign In'
+									});
+								}
+								return res.send({
+									success: true,
+									transcription: transcription.transcription,
+									transcriptionId: transcription.transcriptionId
+								})
+							})
 					})
 				});
-				/* Make the Response from Our Request */
 			});
-		} /* End Google Transcription Function */
-
-		/* Find the Crutch Words in Transcription User Identified */
-    // var transcript  = " hello I wonder if this will work and something will happen and then something else will happen and name name name wonder wonder this";
-
-
+	} /* End Google Transcription Function */
+});
+	/* Find the Crutch Words in Transcription User Identified */
 	function getCrutchWords(transcript, token) {
 		console.log('Token Passed in Associated to UserSession, also Token and also transcriptionId::');
 		console.log(token);
@@ -286,41 +302,6 @@ module.exports = (app) => {
         }
 		console.log(crutchWords);
 		CrutchWords.create(crutchWords);
-
-		// const newCrutchWords = new CrutchWords({
-		// 	word: crutchWords,
-		// 	count: crutchCount,
-		// 	crutchWordsId: token
-		// });
-
-		// crutchWords.save(function () {
-		// 	console.log('transcription saved');
-		// 	console.log(newCrutchWords);
-		// 	console.log(newCrutchWords._id);
-
-
-		// 	User.findOneAndUpdate({
-		// 			/* This has to be Equal to the User's Object ID */
-		// 			_id: newCrutchWords.crutchWordsId
-		// 		}, {
-		// 			$push: {
-		// 				transcriptions: newCrutchWords.word
-		// 			}
-		// 		}, {
-		// 			new: true
-		// 		})
-		// 		.then(function (result) {
-		// 			console.log(JSON.stringify(body.results));
-		// 			JSON.stringify(body.results);
-
-		// 		}).catch(function (err) {
-		// 			console.log(err.message);
-		// 		})
-		// });
-        //   return crutchWords;
-        // uniqueify crutchSaid
-        // counting the occourances of the unqiued words in crutchSaid
-        // store count in crutchCount
     }
 		/* Find the Crutch Words in Transcription User Identified */
 

@@ -924,6 +924,12 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+express-async-await@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/express-async-await/-/express-async-await-1.1.0.tgz#6621d4d575a0f140afdc2c004390f15e9715f873"
+  dependencies:
+    express "^4.15.4"
+
 express@^4.15.4:
   version "4.16.3"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.3.tgz#6af8a502350db3246ecc4becf6b5a34d22f7ed53"

@@ -12,15 +12,15 @@ module.exports = (app) => {
 	all = [];
 	isLoading = false;
 
-	app.get('/users', async function (req, res, next) {
+	app.get('/api/account/transcriptions', async function (req, res, next) {
 		try {
-			res.json(await Users())
+			res.json(await User())
 		} catch (err) {
 			next(err)
 		}
 	})
 
-	app.get('/users/:id', async function (req, res, next) {
+	app.get('/api/account/transcriptions:id', async function (req, res, next) {
 		try {
 			res.json(await User(req.params.id))
 		} catch (err) {

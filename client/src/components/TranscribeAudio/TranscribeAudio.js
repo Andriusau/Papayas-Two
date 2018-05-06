@@ -85,18 +85,53 @@ class TranscribeAudio extends Component {
 		/* POST Request to Backend in Production. */
 		// let uri = '/api/account/upload';
 
-		let formData = new FormData();
+		const formData = new FormData();
 		formData.append('element1', token);
 		formData.append('element2', this.state.selectedFile);
 
-		let options = {
+		const options = {
 			method: 'POST',
 			mode: 'cors',
 			body: formData
+			// body: JSON.stringify(formData)
 		}
-		let req = new Request(uri, options);
+		const req = new Request(uri, options);
+		console.log(options.body);
 
-		fetch(req).then(response => console.log(response)).catch(errors => console.log(errors));
+		// const res = await fetch(req);
+		// const status = await response.status;
+		fetch(req)
+			.then(res => res.json())
+			// .then(json => {
+			// 	console.log('json', json);
+			// })
+			// .catch(function (error) {
+			// 	console.log('request failed', error)
+			// });
+
+		// fetch(req)
+		// 	.then(checkStatus)
+		// 	.then(parseJSON)
+		// 	.then(function (response) {
+		// 		console.log('request succeeded with JSON response', response)
+		// 	})
+		// 	.catch(function (error) {
+		// 		console.log('request failed', error)
+		// 	});
+
+		// function checkStatus(response) {
+		// 	if (response.status >= 200 && response.status < 300) {
+		// 		this.fetchAll();
+		// 	} else {
+		// 		var error = new Error(response.statusText)
+		// 		error.response = response
+		// 		throw error
+		// 	}
+		// }
+
+		// function parseJSON(response) {
+		// 	return response.json()
+		// }
 		// 	if(json.success){
 		// 		this.setState({
 		// 			transcription:'',
