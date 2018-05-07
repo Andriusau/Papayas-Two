@@ -23,7 +23,8 @@ class TranscribeAudio extends Component {
 			uploadError: '',
 			selectedFile: null,
 			transcription: '',
-			crutchWords: ''
+			crutchWords: '',
+			count: ''
 		}
 		/* Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor */
 		this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
@@ -106,6 +107,8 @@ class TranscribeAudio extends Component {
 					if(json.success){
 						this.setState({
 							transcription: json.transcription,
+							// crutchWords: json.crutchWords.words,
+							// count: json.crutchWords.count,
 							isLoading: false
 						});
 						console.log(this.state);
