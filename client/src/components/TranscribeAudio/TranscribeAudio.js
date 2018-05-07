@@ -71,25 +71,14 @@ class TranscribeAudio extends Component {
 
 	/* Take Uploaded File & Send to the Back End */
 	fileUploadHandler = () => {
-		/* Grab State */
-		const {
-			transcription,
-			transcriptionId,
-			crutchWords,
-			count
-		} = this.state;
-
+		/* Set State */
 		this.setState({
 			isLoading: true,
 		});
 
 		/* Send File to Backend Server for Transcribing */
 		const obj = getFromStorage('papayas_app');
-            const { token } = obj;
-
-		/* POST Request to Backend in Development. */
-		// const root = 'http://localhost:3001';
-		// let uri = root + '/api/account/upload';
+		const { token } = obj;
 
 		/* POST Request to Backend in Production. */
 		let uri = '/api/account/upload';
@@ -126,9 +115,6 @@ class TranscribeAudio extends Component {
 				}
 				console.log('?id=' + json._id);
 				if (json._id) {
-					// const root = 'http://localhost:3001';
-					// let uri = root + '/api/account/words?id=' + json._id;
-
 					let uri = '/api/account/words?id=' + json._id;
 
 					const options = {
@@ -167,63 +153,11 @@ class TranscribeAudio extends Component {
 				console.log('request failed', error)
 			});
 	}
-
-	// addCrutchWordsHandler = () => {
-	// 	console.log('addCrutchWordsHandler Clicked');
-	// 	/* Grab State */
-	// 	const {
-	// 		transcriptionId,
-	// 		crutchWords,
-	// 		count
-	// 	} = this.state;
-	// 	console.log('addCrutchWordsHandler State\n===============');
-	// 	console.log(this.state);
-
-	// 	this.setState({
-	// 		wordsLoading: true
-	// 	});
-
-
-	// 	if (transcriptionId) {
-	// 		let { id } = json._id;
-	// 		console.log('?id=' + id);
-	// 		// let uri = '/api/account/upload';
-
-	// 		fetch('/api/account/words?id=' + id)
-	// 			.then(res => res.json())
-	// 			.then(json => {
-	// 				console.log(json.doc);
-	// 				console.log(json.doc.words);
-	// 				console.log(json.doc.count);
-
-	// 				if (json.success) {
-	// 					this.setState({
-	// 						wordsLoading: false,
-	// 						crutchWords: json.doc.words,
-	// 						count: json.doc.count
-	// 					})
-	// 				} else {
-	// 					this.setState({
-	// 						wordsLoading: false
-	// 					})
-	// 				}
-	// 			})
-	// 		console.log(this.state);
-	// 	} else {
-	// 		this.setState({
-	// 			wordsLoading: false
-	// 		})
-	// 	}
-	// }
 	/* End all of functions */
 
 	render() {
 		const {
-			/* Upload Variables */
-			uploadError,
 			transcription,
-			crutchWords,
-			count,
 			isLoading
 		} = this.state;
 		console.log('Selected File:');
@@ -262,7 +196,6 @@ class TranscribeAudio extends Component {
 											</Row>
 											<Button
 												bsStyle='info'
-												// style={{ display: 'none' }}
 												pullRight
 												fill
 												onClick={this.fileUploadHandler}>
