@@ -23,11 +23,15 @@ class TranscribeAudio extends Component {
 			uploadError: '',
 			selectedFile: null,
 			transcription: '',
+			transcriptionId: '',
 			crutchWords: '',
-			count: ''
+			count: '',
+			wordsLoading: true
 		}
 		/* Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor */
 		this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
+		this.fileUploadHandler = this.fileUploadHandler.bind(this);
+		// this.addCrutchWordsHandler = this.addCrutchWordsHandler.bind(this);
 	}
 	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
 	componentDidMount() {
@@ -69,7 +73,10 @@ class TranscribeAudio extends Component {
 	fileUploadHandler = () => {
 		/* Grab State */
 		const {
-			transcription
+			transcription,
+			transcriptionId,
+			crutchWords,
+			count
 		} = this.state;
 
 		this.setState({
@@ -104,18 +111,55 @@ class TranscribeAudio extends Component {
 			.then(json => {
 				console.log('json:', json);
 				console.log('transcription:', json.transcription);
+				console.log('transcriptionId:', json._id);
 					if(json.success){
 						this.setState({
 							transcription: json.transcription,
-							// crutchWords: json.crutchWords.words,
-							// count: json.crutchWords.count,
+							transcriptionId: json._id,
 							isLoading: false
 						});
-						console.log(this.state);
 					}else{
 						this.setState({
-							signInError: json.message,
+							Error: json.message,
 							isLoading: false
+						})
+				}
+				console.log('?id=' + json._id);
+				if (json._id) {
+					// const root = 'http://localhost:3001';
+					// let uri = root + '/api/account/words?id=' + json._id;
+
+					let uri = '/api/account/words?id=' + json._id;
+
+					const options = {
+						method: 'GET',
+						mode: 'cors'
+					}
+
+					const req = new Request(uri, options);
+					console.log(req);
+
+					fetch(req)
+						.then(res => res.json())
+						.then(json => {
+							console.log(json.doc[0]);
+							console.log(json.doc[0].words);
+							console.log(json.doc[0].count);
+
+							if (json.success) {
+								this.setState({
+									wordsLoading: false,
+									crutchWords: json.doc[0].words,
+									count: json.doc[0].count
+								})
+								console.log('this.state words\n==========');
+								console.log(this.state.crutchWords);
+								console.log(this.state.count);
+							} else {
+								this.setState({
+									wordsLoading: false
+								})
+							}
 						})
 					}
 			})
@@ -124,7 +168,53 @@ class TranscribeAudio extends Component {
 			});
 	}
 
+	// addCrutchWordsHandler = () => {
+	// 	console.log('addCrutchWordsHandler Clicked');
+	// 	/* Grab State */
+	// 	const {
+	// 		transcriptionId,
+	// 		crutchWords,
+	// 		count
+	// 	} = this.state;
+	// 	console.log('addCrutchWordsHandler State\n===============');
+	// 	console.log(this.state);
 
+	// 	this.setState({
+	// 		wordsLoading: true
+	// 	});
+
+
+	// 	if (transcriptionId) {
+	// 		let { id } = json._id;
+	// 		console.log('?id=' + id);
+	// 		// let uri = '/api/account/upload';
+
+	// 		fetch('/api/account/words?id=' + id)
+	// 			.then(res => res.json())
+	// 			.then(json => {
+	// 				console.log(json.doc);
+	// 				console.log(json.doc.words);
+	// 				console.log(json.doc.count);
+
+	// 				if (json.success) {
+	// 					this.setState({
+	// 						wordsLoading: false,
+	// 						crutchWords: json.doc.words,
+	// 						count: json.doc.count
+	// 					})
+	// 				} else {
+	// 					this.setState({
+	// 						wordsLoading: false
+	// 					})
+	// 				}
+	// 			})
+	// 		console.log(this.state);
+	// 	} else {
+	// 		this.setState({
+	// 			wordsLoading: false
+	// 		})
+	// 	}
+	// }
 	/* End all of functions */
 
 	render() {
@@ -132,6 +222,8 @@ class TranscribeAudio extends Component {
 			/* Upload Variables */
 			uploadError,
 			transcription,
+			crutchWords,
+			count,
 			isLoading
 		} = this.state;
 		console.log('Selected File:');
@@ -215,18 +307,57 @@ class TranscribeAudio extends Component {
 		}
 		/* If the Audio File Has Been Uploaded & Transcribed Render this */
 		return (
-			<div className="TranscriptionItems">
-				<h3>Latest Transcriptions</h3>
-				<p>{this.state.transcription}</p>
-				<Button
-					bsStyle='info'
-					// style={{ display: 'none' }}
-					pullRight
-					fill
-					onClick={this.fileUploadHandler}>
-					Find Your Crutch Words
-				</Button>
-				<div className='clearfix'></div>
+			<div className='wrapper'>
+				<Sidebar {...this.props} />
+				<div id='main-panel' className='main-panel'>
+					<Grid fluid>
+						<Row>
+						<Col md={8}>
+							<div className="TranscriptionItems">
+								<h3>Latest Transcriptions</h3>
+									<p>{this.state.transcription}</p>
+									<p>{this.state.crutchWords}</p>
+									<p>{this.state.count}</p>
+								<Button
+									bsStyle='info'
+									// style={{ display: 'none' }}
+									pullRight
+									fill
+									onClick={this.addCrutchWordsHandler}>
+									Find Your Crutch Words
+									</Button>
+								<div className='clearfix'></div>
+								</div>
+							</Col>
+							<Col md={4}>
+							<UserCard
+								bgImage='https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400'
+								avatar={avatar}
+								name='Mike Ignaczak'
+								description={
+									<span>
+										'Like'
+									<br />
+										'Um'
+									<br />
+										'Essentially'
+									<br />
+										'So'
+								</span>
+								}
+								socials={
+									<div>
+										<Button simple><i className='fa fa-facebook-square'></i></Button>
+										<Button simple><i className='fa fa-twitter'></i></Button>
+										<Button simple><i className='fa fa-google-plus-square'></i></Button>
+									</div>
+								}
+							/>
+
+							</Col>
+						</Row>
+					</Grid>
+				</div>
 			</div>
 		);
 	}

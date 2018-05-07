@@ -74,19 +74,28 @@ module.exports = (app) => {
 				/* The File Uploaded Object */
 				// console.log(JSON.stringify(body.results));
 				// console.log('==========================');
-				console.log('===================\nREGEX This');
+
 				// for (var i = 0; i < body.results.length; i++) {
 				// 	var trans = JSON.stringify(body.results[i]);
 				// 	// console.log(trans.replace(/":"+/g, ""));
 				// 	console.log(trans.replace(/\{"alternatives":\[{"transcript":/,""));
 				// }
-				console.log('==========================');
+
+
+				const transcriptionArray = [];
 
 				for (var i = 0; i < body.results.length; i++) {
 					for (var j = 0; j < body.results[i].alternatives.length; j++) {
-						console.log(JSON.stringify(body.results[i].alternatives[j]));
+						// console.log(JSON.stringify(body.results[i].alternatives[j]));
+
+						transcriptionArray.push(JSON.stringify(body.results[i].alternatives[j].transcript));
+
 					}
 				}
+				console.log('===================\nNew Transcription Array');
+				// console.log(transcriptionArray.extend.apply(null, [{}].concat(transcriptionArray)));
+				console.log(transcriptionArray);
+				console.log('==========================');
 				// for (var i = 0; i < body.results.length; i++) {
 				// 	for (var j = 0; j < body.results[i].alternatives.length; j++) {
 
