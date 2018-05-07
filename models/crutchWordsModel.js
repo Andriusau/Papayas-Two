@@ -2,18 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const crutchWordsSchema = new Schema({
-	words: [
+	words:
 		{
 			type: String,
 			default: ''
-		}
-	],
-	count: [
+		},
+	count:
 		{
 			type: Number,
 			default: 0
 		}
-	],
+	,
 	crutchWordsId: {
 		type: String,
 		default: ''

@@ -107,9 +107,8 @@ module.exports = (app) => {
 			);
 			newTranscription.save(function () {
 				console.log('transcription saved');
-				console.log(newTranscription);
-				console.log(newTranscription._id);
-
+				console.log('transcription: ' + transcription.transcription);
+				console.log('transcriptionId: ' + transcription.transcriptionId);
 
 				User.findOneAndUpdate({
 					/* This has to be Equal to the User's Object ID */
