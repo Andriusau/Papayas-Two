@@ -33,40 +33,83 @@ class Dashboard extends Component {
 					<div className='content'>
 						<Grid fluid>
 							<Row>
+								<Col lg={12}>
+										<Card
+											id="chartActivity"
+											title="Crutch Count"
+											category="What am I even saying?"
+											stats="Data information certified"
+											statsIcon="fa fa-check"
+											content={
+												<div className="ct-chart">
+													<ChartistGraph
+														data={dataBar}
+														type="Bar"
+														options={optionsBar}
+														responsiveOptions={responsiveBar}
+													/>
+												</div>
+											}
+											legend={
+												<div className="legend">
+													{this.createLegend(legendBar)}
+												</div>
+											}
+										/>
+								</Col>
+							</Row>
+							<Row>
+								<Col lg={12}>
+									<Card
+										title="Transcriptions"
+										category="Historical conversations"
+										stats="Updated 3 minutes ago"
+										statsIcon="fa fa-history"
+										content={
+											<div className="table-full-width">
+												<table className="table">
+													<Tasks />
+												</table>
+											</div>
+										}
+									/>
+								</Col>
+							</Row>
+							<Row>
 								<Col lg={3} sm={6}>
 									<StatsCard
-										bigIcon={<i className='pe-7s-server text-warning'></i>}
-										statsText='Capacity'
-										statsValue='105GB'
+										bigIcon={<i className='pe-7s-graph1'></i>}
+										statsText='Total Words'
+										statsValue='1034'
 										statsIcon={<i className='fa fa-refresh'></i>}
-										statsIconText='Updated Now'
+										statsIconText='All Time'
 									/>
 								</Col>
 								<Col lg={3} sm={6}>
 									<StatsCard
-										bigIcon={<i className='pe-7s-wallet text-success'></i>}
-										statsText='Revenue'
-										statsValue='$1,345'
+										bigIcon={<i className='pe-7s-bandaid text-danger'></i>}
+										statsText='Filler Words'
+										statsValue='143'
 										statsIcon={<i className='fa fa-calendar-o'></i>}
-										statsIconText='Last Day'
+										statsIconText='All Time'
 									/>
 								</Col>
 								<Col lg={3} sm={6}>
 									<StatsCard
-										bigIcon={<i className='pe-7s-graph1 text-danger'></i>}
-										statsText='Errors'
+										bigIcon={<i className='pe-7s-folder'></i>}
+										statsText='Recent Total Words'
 										statsValue='23'
 										statsIcon={<i className='fa fa-clock-o'></i>}
-										statsIconText='Last Transcribed Audio File'
+										statsIconText='Last Upload'
 									/>
 								</Col>
 								<Col lg={3} sm={6}>
 									<StatsCard
-										bigIcon={<i className="pe-7s-cloud-upload"></i>}
-										statsText="Followers"
-										statsValue="+45"
+										bigIcon={<i className="pe-7s-flag text-danger"></i>}
+										statsText='Recent Filer Words'
+										statsValue="8"
 										statsIcon={<i className="fa fa-refresh"></i>}
-										statsIconText="Updated now"
+										statsIconText="Last Upload"
 									/>
 								</Col>
 							</Row>
@@ -75,8 +118,8 @@ class Dashboard extends Component {
 									<Card
 										statsIcon="fa fa-history"
 										id="chartHours"
-										title="Users Behavior"
-										category="24 Hours performance"
+										title="Track my Progress"
+										category="How have I improved?"
 										stats="Updated 3 minutes ago"
 										content={
 											<div className="ct-chart">
@@ -98,8 +141,8 @@ class Dashboard extends Component {
 								<Col md={4}>
 									<Card
 										statsIcon="fa fa-clock-o"
-										title="Percentage of Audio File"
-										category="Since Last Audio Upload"
+										title="Break it Down"
+										category="Proportion of my TalkTrack"
 										stats="Audio sent 2 minutes ago"
 										content={
 											<div id="chartPreferences" className="ct-chart ct-perfect-fourth">
@@ -109,49 +152,6 @@ class Dashboard extends Component {
 										legend={
 											<div className="legend">
 												{this.createLegend(legendPie)}
-											</div>
-										}
-									/>
-								</Col>
-							</Row>
-
-							<Row>
-								<Col md={6}>
-									<Card
-										id="chartActivity"
-										title="2014 Sales"
-										category="All products including Taxes"
-										stats="Data information certified"
-										statsIcon="fa fa-check"
-										content={
-											<div className="ct-chart">
-												<ChartistGraph
-													data={dataBar}
-													type="Bar"
-													options={optionsBar}
-													responsiveOptions={responsiveBar}
-												/>
-											</div>
-										}
-										legend={
-											<div className="legend">
-												{this.createLegend(legendBar)}
-											</div>
-										}
-									/>
-								</Col>
-
-								<Col md={6}>
-									<Card
-										title="Tasks"
-										category="Backend development"
-										stats="Updated 3 minutes ago"
-										statsIcon="fa fa-history"
-										content={
-											<div className="table-full-width">
-												<table className="table">
-													<Tasks />
-												</table>
 											</div>
 										}
 									/>
