@@ -2,10 +2,26 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const crutchWordsSchema = new Schema({
-	word: String,
-	count: Number,
-	crutchWordsId: String,
-	default: 0
+	words: [
+		{
+			type: String,
+			default: ''
+		}
+	],
+	count: [
+		{
+			type: Number,
+			default: 0
+		}
+	],
+	crutchWordsId: {
+		type: String,
+		default: ''
+	},
+	transcription: {
+		type: String,
+		default: ''
+	}
 });
 
 const CrutchWords = module.exports = mongoose.model('CrutchWords', crutchWordsSchema);

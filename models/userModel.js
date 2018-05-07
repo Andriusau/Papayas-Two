@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema({
 	  // This allows us to populate the User with any associated Transcriptions
 	  crutchWords: [
 		{
-			// Store ObjectIds in the array
+		// Store ObjectIds in the array
         type: Schema.Types.ObjectId,
 		ref: 'CrutchWords',
 		default:''

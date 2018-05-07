@@ -51,14 +51,7 @@ module.exports = (app) => {
                 message: 'Error: Password Cannot be Blank!'
             });
         }
-        // if (!crutchWords) {
-        //     return res.send({
-        //         success: false,
-        //         message: 'Error: Please Enter At Least One Crutch Word!'
-        //     });
-        // }
         email = email.toLowerCase();
-        // crutchWords = crutchWords.toLowerCase();
 
         /* Now that fields have been filled in need to do the following: */
         /* Step 1: Verify Email Doesn't Exist */
