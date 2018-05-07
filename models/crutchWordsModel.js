@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const crutchWordsSchema = new Schema({
 	words:
-		{
+		[{
 			type: String,
 			default: ''
-		},
+		}],
 	count:
 		{
 			type: Number,

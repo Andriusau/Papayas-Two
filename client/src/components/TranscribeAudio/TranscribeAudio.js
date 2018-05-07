@@ -22,7 +22,8 @@ class TranscribeAudio extends Component {
 			element2: '',
 			uploadError: '',
 			selectedFile: null,
-			transcription: ''
+			transcription: '',
+			crutchWords: ''
 		}
 		/* Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor */
 		this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
@@ -135,7 +136,7 @@ class TranscribeAudio extends Component {
 		console.log(transcription);
 		/* If the Audio File Has Not Been Uploaded & Transcribed Render this */
 		if (isLoading) {
-			return (<div><p>Page is Loading...</p></div>);
+			return (<div><h3>Please Wait While We Transcribe You're Audio...</h3></div>);
 		}
 		if (!transcription) {
 			return (
@@ -214,6 +215,15 @@ class TranscribeAudio extends Component {
 			<div className="TranscriptionItems">
 				<h3>Latest Transcriptions</h3>
 				<p>{this.state.transcription}</p>
+				<Button
+					bsStyle='info'
+					// style={{ display: 'none' }}
+					pullRight
+					fill
+					onClick={this.fileUploadHandler}>
+					Find Your Crutch Words
+				</Button>
+				<div className='clearfix'></div>
 			</div>
 		);
 	}

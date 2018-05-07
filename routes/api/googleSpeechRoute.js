@@ -73,22 +73,33 @@ module.exports = (app) => {
 		// console.log(JSON.stringify(body.results));
 		// console.log('==========================');
 		console.log('===================\nREGEX This');
-			for (var i = 0; i < body.results.length; i++) {
-				var trans = JSON.stringify(body.results[i]);
-				// console.log(trans.replace(/":"+/g, ""));
-				console.log(trans.replace(/\{"alternatives":\[{"transcript":/,""));
-				// .replace(/":"+/g, "")
-			}
+			// for (var i = 0; i < body.results.length; i++) {
+			// 	var trans = JSON.stringify(body.results[i]);
+			// 	// console.log(trans.replace(/":"+/g, ""));
+			// 	console.log(trans.replace(/\{"alternatives":\[{"transcript":/,""));
+			// }
 		console.log('==========================');
 
-		// for (var i = 0; i < body.results.length; i++) {
-		// 	// for (var j = 0; j < body.results[i].alternatives.length; j++) {
-		// 	// }
-		// }
+		for (var i = 0; i < body.results.length; i++) {
+			for (var j = 0; j < body.results[i].alternatives.length; j++) {
+				console.log(JSON.stringify(body.results[i].alternatives[j]));
+			}
+		}
+			// for (var i = 0; i < body.results.length; i++) {
+			// 	for (var j = 0; j < body.results[i].alternatives.length; j++) {
+
+			// 			// var response = JSON.stringify(trans[i].alternatives[j].transcript)
+			// 			// console.log(JSON.stringify(trans[i].alternatives[j].transcript));
+			// 			// console.log(response.join(','));
+			// 			var response = body.results[i].alternatives[j].transcript;
+			// 			console.log(response);
+
+			// 	}
+			// }
 		console.log('==========================');
 			let transcription = {
 				transcription: JSON.stringify(body.results[0].alternatives[0].transcript),
-				// transcription: JSON.stringify(body.results),
+				// transcription: response,
 				transcriptionId: token
 		};
 
@@ -130,7 +141,7 @@ module.exports = (app) => {
 						/* Call Crutch Words Promise Function Here */
 						let finalT = transcription.transcription.toLowerCase();
 						console.log(newTranscription._id);
-						getCrutchWords(finalT, newTranscription._id)
+						getCrutchWords(finalT, newTranscription._id);
 						/* Make the Response from Our Request */
 						Transcription.findOne({
 							_id: newTranscription._id
@@ -307,7 +318,6 @@ module.exports = (app) => {
         let crutchCount;
 		let crutchReturn = [];
 
-
         if (crutchWords.length > 0) {
             for (let i = 0; i < crutchWords.length; i++) {
                 const rgxp = new RegExp("(\\S*)?(" + crutchWords[i].word + ")(\\S*)?", "ig");
@@ -316,66 +326,72 @@ module.exports = (app) => {
 
                 transcript.replace(rgxp, function(match, $1, $2, $3) {
                     crutchSaid.push(($1 || "") + $2 + ($3 || ""));
-
-					/* Need ForEach Loop Here Something Like Below to See if each crutchWords.count is > 0, if it is push it to crutchCount */
-					// crutchWords[i].forEach(function (crutchCount) {
-					// 	if (crutchCount.count() > 1) {
-					// 		console.log(crutchWords[i] + " " + crutchCount);
-					// 	}
-					// });
                 });
-                //console.log(crutchWords[i] + " " + crutchCount);
-				crutchReturn.push(crutchWords[i].count = crutchCount);
-            }
-        }
-		console.log(crutchWords);
 
-		/* Find the Crutch Words in Transcription User Identified */
-		CrutchWords.create(crutchWords, function (err, words) {
-			// console.log('=========================');
-			// console.log(newCrutchWords);
-			// console.log('==========================');
-			// for (var i = 0; i < newCrutchWords.length; i++) {
-				// console.log(JSON.stringify(newCrutchWords[i].crutchWordsId));
-			// }
-			// console.log(newCrutchWords[0].crutchWordsId);
-			// console.log('==========================');
-			console.log('Transcription._id: ' +
-				_id);
-			// console.log('Transcription: ' +
-			// 	transcription);
-		/* Save the Count of How Many Times Transcribed Words appear in Transcription */
+				crutchReturn.push(crutchWords[i].count = crutchCount);
+			}
+			}
+			/* Find the Crutch Words in Transcription User Identified */
+			// console.log('Transcription._id: ' +
+			// 	_id);
+
 			const newCrutchWords = new CrutchWords({
-				words: crutchWords.word,
-				count: crutchWords.count,
+				words: crutchSaid,
+				count: crutchReturn.reduce(function (acc, val) {
+					return acc + val;
+				}),
 				crutchWordsId: crutchWords[0].crutchWordsId,
 				transcription: transcript
 			});
-			newCrutchWords.save(function () {
-				console.log('Crutch Words Saved');
-				console.log(newCrutchWords);
-				console.log('====================');
+		newCrutchWords.save(function () {
+			console.log('Crutch Words Saved');
+			console.log(newCrutchWords);
+			console.log('====================');
 
-			Transcription.findOneAndUpdate({
-				_id: newCrutchWords.crutchWordsId
-			}, {
-					$push: {
-						crutchWords: newCrutchWords.crutchWords
-					}
-				}), function (err, found) {
-					console.log(found, "FoundCategory Before product Ids in it<<<<<<<<");
-					if (err) {
-						console.log(err)
-					} else {
-						found.crutchWords.push(newCrutchWords);
-
-						found.save();
-						console.log(found, "FoundCategory AFTER product Ids in it<<<<<<<<")
-					}
+		Transcription.findOneAndUpdate({
+			_id: newCrutchWords.crutchWordsId
+		}, {
+				$push: {
+					crutchWords: newCrutchWords
 				}
-			})
+			}), function (err, found) {
+				console.log(found, "FoundCategory Before product Ids in it<<<<<<<<");
+				if (err) {
+					console.log(err)
+				} else {
+					found.crutchWords.push(newCrutchWords);
+
+					found.save();
+					console.log(found, "FoundCategory AFTER product Ids in it<<<<<<<<")
+				}
+			}
+		})
+	}
+
+	app.get('/api/account/words', (req, res, next) => {
+		/* Get Transcription Object ID */
+		const { query } = req;
+		/* ?token=test */
+        const { words } = query;
+		/* Get Words */
+		CrutchWords.find({
+			crutchWordsId: id
+			}, null, (err, doc) => {
+			if (err) {
+				return res.send({
+					success: false,
+					message: 'Error: You\'re Lost'
+				});
+			} else {
+				return res.send({
+					success: true,
+					message: 'You\'re Found',
+					words
+					// transcription
+				});
+			}
 		});
-		}
+	});
 
 }
 
