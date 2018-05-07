@@ -94,7 +94,7 @@ module.exports = (app) => {
 				}
 				console.log('===================\nNew Transcription Array');
 				// console.log(transcriptionArray.extend.apply(null, [{}].concat(transcriptionArray)));
-				console.log(transcriptionArray);
+				console.log(transcriptionArray.join("", "").replace(/"([^""]+(?="))"/g, '$1'));
 				console.log('==========================');
 				// for (var i = 0; i < body.results.length; i++) {
 				// 	for (var j = 0; j < body.results[i].alternatives.length; j++) {
@@ -109,7 +109,7 @@ module.exports = (app) => {
 				// }
 				console.log('==========================');
 				let transcription = {
-					transcription: JSON.stringify(body.results[0].alternatives[0].transcript),
+					transcription: transcriptionArray.join("", "").replace(/"([^""]+(?="))"/g, '$1'),
 					// transcription: response,
 					transcriptionId: token
 				};
