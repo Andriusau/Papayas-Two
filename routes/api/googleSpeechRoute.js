@@ -66,61 +66,24 @@ module.exports = (app) => {
 				json: true
 			};
 
-			// const res = await (request);
-			// const status = await res.status;
-
 			request(options, function (err, results, body) {
 				if (err) throw new Error(err);
 				/* The File Uploaded Object */
-				// console.log(JSON.stringify(body.results));
-				// console.log('==========================');
-
-				// for (var i = 0; i < body.results.length; i++) {
-				// 	var trans = JSON.stringify(body.results[i]);
-				// 	// console.log(trans.replace(/":"+/g, ""));
-				// 	console.log(trans.replace(/\{"alternatives":\[{"transcript":/,""));
-				// }
-
-
 				const transcriptionArray = [];
-
+				/* For Loops to Get Full Transcription by Itself */
 				for (var i = 0; i < body.results.length; i++) {
 					for (var j = 0; j < body.results[i].alternatives.length; j++) {
-						// console.log(JSON.stringify(body.results[i].alternatives[j]));
-
 						transcriptionArray.push(JSON.stringify(body.results[i].alternatives[j].transcript));
-
 					}
 				}
-				console.log('===================\nNew Transcription Array');
-				// console.log(transcriptionArray.extend.apply(null, [{}].concat(transcriptionArray)));
-				console.log(transcriptionArray.join("", "").replace(/"([^""]+(?="))"/g, '$1'));
-				console.log('==========================');
-				// for (var i = 0; i < body.results.length; i++) {
-				// 	for (var j = 0; j < body.results[i].alternatives.length; j++) {
-
-				// 			// var response = JSON.stringify(trans[i].alternatives[j].transcript)
-				// 			// console.log(JSON.stringify(trans[i].alternatives[j].transcript));
-				// 			// console.log(response.join(','));
-				// 			var response = body.results[i].alternatives[j].transcript;
-				// 			console.log(response);
-
-				// 	}
-				// }
-				console.log('==========================');
 				let transcription = {
 					transcription: transcriptionArray.join("", "").replace(/"([^""]+(?="))"/g, '$1'),
-					// transcription: response,
 					transcriptionId: token
 				};
 
 				/* Create a the Transcription in the Transcriptions Collection */
 				Transcription.create(transcription);
 				/* Save the Transcription to the User's Profile */
-				console.log(transcription);
-				// console.log(transcription.transcription);
-				console.log(transcription.transcriptionId);
-
 				const newTranscription = new Transcription({
 					transcription: transcription,
 					transcriptionId: transcription._id
@@ -329,27 +292,22 @@ module.exports = (app) => {
 		if (crutchWords.length > 0) {
 			for (let i = 0; i < crutchWords.length; i++) {
 				const rgxp = new RegExp("(\\S*)?(" + crutchWords[i].word + ")(\\S*)?", "ig");
-
 				crutchCount = (transcript.split(crutchWords[i].word).length - 1);
-
 				transcript.replace(rgxp, function (match, $1, $2, $3) {
 					crutchSaid.push(($1 || "") + $2 + ($3 || ""));
 				});
-
 				crutchReturn.push(crutchWords[i].count = crutchCount);
 			}
 		}
 		/* Find the Crutch Words in Transcription User Identified */
-		// console.log('Transcription._id: ' +
-		// 	_id);
-
 		const newCrutchWords = new CrutchWords({
 			words: crutchSaid,
 			count: crutchReturn.reduce(function (acc, val) {
 				return acc + val;
 			}),
 			crutchWordsId: crutchWords[0].crutchWordsId,
-			transcription: transcript
+			transcription: transcript,
+			chartData: crutchCount
 		});
 		newCrutchWords.save(function () {
 			console.log('Crutch Words Saved');

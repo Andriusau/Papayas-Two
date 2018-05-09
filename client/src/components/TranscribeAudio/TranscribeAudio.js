@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
-// import { Redirect } from 'react-router-dom';
 import 'whatwg-fetch';
 import Button from '../../elements/CustomButton/CustomButton';
 import avatar from '../../assets/img/faces/face-3.jpg';
 import Sidebar from '../Sidebar/Sidebar';
-// import Dashboard from '../Dashboard/Dashboard';
 import { Card } from '../Card/Card';
 import { UserCard } from '../UserCard/UserCard';
 import { getFromStorage } from '../utils/storage';
-
+import ChartistGraph from 'react-chartist';
+// import { dataBar } from '../../variables/Variables';
 
 class TranscribeAudio extends Component {
 	constructor(props) {
@@ -26,12 +25,18 @@ class TranscribeAudio extends Component {
 			transcriptionId: '',
 			crutchWords: '',
 			count: '',
-			wordsLoading: true
+			wordsLoading: true,
+			chartData: '',
+			dataBar: {
+				labels: '',
+				series: ''
+			}
 		}
 		/* Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor */
 		this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
 		this.fileUploadHandler = this.fileUploadHandler.bind(this);
 		// this.addCrutchWordsHandler = this.addCrutchWordsHandler.bind(this);
+
 	}
 	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
 	componentDidMount() {
@@ -59,7 +64,10 @@ class TranscribeAudio extends Component {
 				isLoading: false
 			});
 		}
+
 	}
+
+
 
 	/* Get the Select a File from Upload */
 	fileSelectedHandler = event => {
@@ -129,18 +137,40 @@ class TranscribeAudio extends Component {
 						.then(res => res.json())
 						.then(json => {
 							console.log(json.doc[0]);
-							console.log(json.doc[0].words);
-							console.log(json.doc[0].count);
+							// console.log(json.doc[0].words);
+							// console.log(json.doc[0].count);
 
 							if (json.success) {
 								this.setState({
 									wordsLoading: false,
 									crutchWords: json.doc[0].words,
-									count: json.doc[0].count
+									count: json.doc[0].count,
+									dataBar: {
+										labels: json.doc[0].words,
+										series: json.doc[0].chartData
+									}
 								})
 								console.log('this.state words\n==========');
 								console.log(this.state.crutchWords);
 								console.log(this.state.count);
+								console.log('Current State\n==========');
+								console.log(this.state);
+								console.log('Current Props\n==========');
+								console.log(this.state.props);
+								console.log(this.props);
+								/* Bar Chart for Crutch Words Said */
+								// let ChartistGraph = () => {
+								// 	let dataBar = {
+								// 		labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+								// 		series: [
+								// 			[5, 4, 3, 7, 5, 10, 3],
+								// 			[3, 2, 9, 5, 4, 6, 4]
+								// 		]
+								// 	};
+								// };
+								// return (
+								// 	<Bar data={data}/>
+								// )
 							} else {
 								this.setState({
 									wordsLoading: false
@@ -152,8 +182,11 @@ class TranscribeAudio extends Component {
 			.catch(function (error) {
 				console.log('request failed', error)
 			});
+
 	}
 	/* End all of functions */
+
+
 
 	render() {
 		const {
@@ -238,6 +271,15 @@ class TranscribeAudio extends Component {
 				</div>
 			);
 		}
+		// let ChartistGraph = () => {
+		// 	let dataBar = {
+		// 		labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+		// 		series: [
+		// 			[5, 4, 3, 7, 5, 10, 3],
+		// 			[3, 2, 9, 5, 4, 6, 4]
+		// 		]
+		// 	};
+		// };
 		/* If the Audio File Has Been Uploaded & Transcribed Render this */
 		return (
 			<div className='wrapper'>
@@ -247,17 +289,27 @@ class TranscribeAudio extends Component {
 						<Row>
 						<Col md={8}>
 							<div className="TranscriptionItems">
-								<h3>Latest Transcriptions</h3>
+								<h3><strong>Latest Transcriptions</strong></h3>
 									<p>{this.state.transcription}</p>
+									<h3><strong>Crutch Words Said</strong></h3>
 									<p>{this.state.crutchWords}</p>
+									<h3><strong>Count of Crutch Words Said</strong></h3>
 									<p>{this.state.count}</p>
+									<div className="ct-chart">
+										<ChartistGraph
+											data={this.state.dataBar}
+											type="Bar"
+										/>
+									</div>
 								<Button
 									bsStyle='info'
+									className='AddCrutchWords'
 									// style={{ display: 'none' }}
 									pullRight
 									fill
+									href='/dashboard'
 									onClick={this.addCrutchWordsHandler}>
-									Find Your Crutch Words
+									Add Crutch Words to Dashboard
 									</Button>
 								<div className='clearfix'></div>
 								</div>

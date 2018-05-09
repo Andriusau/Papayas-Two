@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/storage';
-import TranscribeAudio from '../TranscribeAudio/TranscribeAudio';
+import Dashboard from '../Dashboard/Dashboard';
 
 class Signin extends Component {
 	constructor(props) {
@@ -189,7 +189,7 @@ class Signin extends Component {
 			);
 		}
 		return (
-			<Redirect to='/transcribe' component={TranscribeAudio} />
+			<Redirect to='/dashboard' component={Dashboard} />
 		);
 	}
 

@@ -20,6 +20,10 @@ const crutchWordsSchema = new Schema({
 	transcription: {
 		type: String,
 		default: ''
+	},
+	chartData: {
+		type: Number,
+		default: 0
 	}
 });
 
