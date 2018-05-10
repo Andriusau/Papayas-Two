@@ -8,7 +8,7 @@ import { Card } from '../Card/Card';
 import { UserCard } from '../UserCard/UserCard';
 import { getFromStorage } from '../utils/storage';
 import ChartistGraph from 'react-chartist';
-// import { dataBar } from '../../variables/Variables';
+
 
 class TranscribeAudio extends Component {
 	constructor(props) {
@@ -35,8 +35,6 @@ class TranscribeAudio extends Component {
 		/* Binding the audio files & crutch words entered in the selected file & Crutch Words text box to the constructor */
 		this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
 		this.fileUploadHandler = this.fileUploadHandler.bind(this);
-		// this.addCrutchWordsHandler = this.addCrutchWordsHandler.bind(this);
-
 	}
 	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
 	componentDidMount() {
@@ -66,8 +64,6 @@ class TranscribeAudio extends Component {
 		}
 
 	}
-
-
 
 	/* Get the Select a File from Upload */
 	fileSelectedHandler = event => {
@@ -136,41 +132,56 @@ class TranscribeAudio extends Component {
 					fetch(req)
 						.then(res => res.json())
 						.then(json => {
-							console.log(json.doc[0]);
-							// console.log(json.doc[0].words);
-							// console.log(json.doc[0].count);
-
 							if (json.success) {
 								this.setState({
 									wordsLoading: false,
 									crutchWords: json.doc[0].words,
 									count: json.doc[0].count,
+								})
+
+								/* Total of Times Crutch Words Was Said */
+								const totalWords = json.doc[0].words.reduce(function (acc, curr) {
+									if (typeof acc[curr] === 'undefined') {
+										acc[curr] = 1;
+									} else {
+										acc[curr] += 1;
+									}
+									return acc;
+
+								}, {});
+
+								/* Create Key : Value Pairs for Table Data */
+								var tableData = Object.keys(totalWords).map(k => {return {key: k, value: totalWords[k]}});
+								console.log(tableData);
+
+								/* Seperate Keys & Values for Bar Graph */
+								var dataBack = {};
+								tableData.forEach(o => dataBack[o.key] = o.value);
+								console.log(dataBack);
+								console.log(Object.values(dataBack));
+
+								/* Bar Chart for Crutch Words Said */
+								this.setState({
 									dataBar: {
-										labels: json.doc[0].words,
-										series: json.doc[0].chartData
+										labels: Object.keys(dataBack),
+										series: [
+											Object.values(dataBack)
+										]
 									}
 								})
+								console.log('==========');
 								console.log('this.state words\n==========');
 								console.log(this.state.crutchWords);
 								console.log(this.state.count);
 								console.log('Current State\n==========');
 								console.log(this.state);
-								console.log('Current Props\n==========');
-								console.log(this.state.props);
-								console.log(this.props);
-								/* Bar Chart for Crutch Words Said */
-								// let ChartistGraph = () => {
-								// 	let dataBar = {
-								// 		labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-								// 		series: [
-								// 			[5, 4, 3, 7, 5, 10, 3],
-								// 			[3, 2, 9, 5, 4, 6, 4]
-								// 		]
-								// 	};
-								// };
-								// return (
-								// 	<Bar data={data}/>
-								// )
+								console.log('Current Data Labels\n==========');
+								console.log(this.state.dataBar.labels);
+								console.log('Current Data Series\n==========');
+								console.log(totalWords);
+								console.log(Object.keys(dataBack));
+								console.log(Object.values(dataBack));
+								console.log('==========');
 							} else {
 								this.setState({
 									wordsLoading: false
@@ -185,8 +196,6 @@ class TranscribeAudio extends Component {
 
 	}
 	/* End all of functions */
-
-
 
 	render() {
 		const {
@@ -217,12 +226,10 @@ class TranscribeAudio extends Component {
 														<ControlLabel>Choose Audio File</ControlLabel>
 														<FormControl
 															rows='5'
-															// style={{ display: 'none' }}
 															type='file'
 															bsClass='form-control'
 															value={this.selectedFile}
 															onChange={this.fileSelectedHandler}
-														// ref={fileInput => this.fileInput = fileInput}
 														/>
 													</FormGroup>
 												</Col>
@@ -271,15 +278,6 @@ class TranscribeAudio extends Component {
 				</div>
 			);
 		}
-		// let ChartistGraph = () => {
-		// 	let dataBar = {
-		// 		labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-		// 		series: [
-		// 			[5, 4, 3, 7, 5, 10, 3],
-		// 			[3, 2, 9, 5, 4, 6, 4]
-		// 		]
-		// 	};
-		// };
 		/* If the Audio File Has Been Uploaded & Transcribed Render this */
 		return (
 			<div className='wrapper'>
@@ -291,20 +289,17 @@ class TranscribeAudio extends Component {
 							<div className="TranscriptionItems">
 								<h3><strong>Latest Transcriptions</strong></h3>
 									<p>{this.state.transcription}</p>
-									<h3><strong>Crutch Words Said</strong></h3>
-									<p>{this.state.crutchWords}</p>
-									<h3><strong>Count of Crutch Words Said</strong></h3>
-									<p>{this.state.count}</p>
+									<h3><strong>Your Said {this.state.count} Crutch Words Said</strong></h3>
 									<div className="ct-chart">
 										<ChartistGraph
 											data={this.state.dataBar}
 											type="Bar"
 										/>
+
 									</div>
 								<Button
 									bsStyle='info'
 									className='AddCrutchWords'
-									// style={{ display: 'none' }}
 									pullRight
 									fill
 									href='/dashboard'

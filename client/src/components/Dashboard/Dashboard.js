@@ -5,10 +5,25 @@ import { StatsCard } from '../StatsCard/StatsCard';
 import { Tasks } from '../Tasks/Tasks';
 import ChartistGraph from 'react-chartist';
 import Sidebar from '../Sidebar/Sidebar';
+// import { getFromStorage } from '../utils/storage';
 
 import { dataPie, legendPie, dataSales, optionsSales, responsiveSales, legendSales, dataBar, optionsBar, responsiveBar, legendBar } from '../../variables/Variables';
 class Dashboard extends Component {
+		constructor(props) {
+			super(props);
+			/* Set State */
+			this.state = {
+				isLoading: true,
+				token: ''
+				// redirect: true
+			};
+			/* Binding Logout functions to the constructor */
+			// this.onLogOut = this.onLogOut.bind(this);
+		}
 
+	// componentDidMount() {
+	// 	const obj = getFromStorage('papayas_app');
+	// }
 	createLegend(json) {
         var legend = [];
         for(var i = 0; i < json["names"].length; i++){
@@ -24,6 +39,13 @@ class Dashboard extends Component {
         return legend;
     }
 	render() {
+		// const {
+		// 	isLoading,
+		// 	signInError,
+		// 	token
+		// } = this.state;
+
+
 		return (
 			<div className='wrapper'>
 				<Sidebar {...this.props} />
@@ -97,7 +119,7 @@ class Dashboard extends Component {
 								<Col lg={3} sm={6}>
 									<StatsCard
 										bigIcon={<i className='pe-7s-folder'></i>}
-										statsText='Recent Total Words'
+										statsText='Total Files'
 										statsValue='23'
 										statsIcon={<i className='fa fa-clock-o'></i>}
 										statsIconText='Last Upload'
@@ -106,7 +128,7 @@ class Dashboard extends Component {
 								<Col lg={3} sm={6}>
 									<StatsCard
 										bigIcon={<i className="pe-7s-flag text-danger"></i>}
-										statsText='Recent Filer Words'
+										statsText='Avg Per File'
 										statsValue="8"
 										statsIcon={<i className="fa fa-refresh"></i>}
 										statsIconText="Last Upload"
@@ -142,6 +164,7 @@ class Dashboard extends Component {
 									<Card
 										statsIcon="fa fa-clock-o"
 										title="Break it Down"
+										id="progress"
 										category="Proportion of my TalkTrack"
 										stats="Audio sent 2 minutes ago"
 										content={

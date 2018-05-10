@@ -77,7 +77,7 @@ module.exports = (app) => {
 					}
 				}
 				let transcription = {
-					transcription: transcriptionArray.join("", "").replace(/"([^""]+(?="))"/g, '$1'),
+					transcription: transcriptionArray.join("", "").replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\^"]/g, ""),
 					transcriptionId: token
 				};
 
@@ -284,7 +284,7 @@ module.exports = (app) => {
 				crutchWordsId: _id
 			}
 		];
-
+		console.log(crutchWords);
 		let crutchSaid = [];
 		let crutchCount;
 		let crutchReturn = [];
@@ -294,13 +294,24 @@ module.exports = (app) => {
 				const rgxp = new RegExp("(\\S*)?(" + crutchWords[i].word + ")(\\S*)?", "ig");
 				crutchCount = (transcript.split(crutchWords[i].word).length - 1);
 				transcript.replace(rgxp, function (match, $1, $2, $3) {
-					crutchSaid.push(($1 || "") + $2 + ($3 || ""));
+					JSON.stringify(crutchSaid.push(($1 || "") + $2 + ($3 || "")));
 				});
 				crutchReturn.push(crutchWords[i].count = crutchCount);
 			}
+
+			uniqueWords = JSON.stringify(crutchSaid).replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\^"]/g, "");
+			//.replace(/[^\w\s]|_/g, '$1')
+			// .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\^"]/g, "");
+			// console.log(uniqueWords.split(/(\W+)/); (/"([^"]+(?="))"/g, '$1') (/\.+/g, ''));
+			// uniqueWords = JSON.stringify(crutchSaid).replace(/"([^"])|([^.])+(?="))"/g, '$1');
+			console.log(crutchSaid);
+			// console.log(crutchSaid.split(',').map(function(el){ return +el;}));
 		}
 		/* Find the Crutch Words in Transcription User Identified */
 		const newCrutchWords = new CrutchWords({
+			// words: JSON.stringify(crutchSaid).replace(/"[^.\/,""]"+/g, ''),
+			// words: uniqueWords.join(", ").replace(/"([^""]+(?="))"/g, '$1'),
+			// words: JSON.stringify(crutchSaid).replace(/\./g, ''),
 			words: crutchSaid,
 			count: crutchReturn.reduce(function (acc, val) {
 				return acc + val;
@@ -337,17 +348,34 @@ module.exports = (app) => {
 
 	app.get('/api/account/words', (req, res, next) => {
 		/* Get Transcription Object ID */
-		const {
-			query
-		} = req;
+		const { query } = req;
 		/* ?token=test */
-		const {
-			id
-		} = query;
+		const { id } = query;
 		/* Get Words */
 		CrutchWords.find({
 			crutchWordsId: id,
 		}, null, (err, doc) => {
+			if (err) {
+				return res.send({
+					success: false,
+					message: 'Error: You\'re Lost'
+				});
+			} else {
+				return res.send({
+					success: true,
+					message: 'You\'re Found',
+					doc
+				});
+			}
+		});
+	});
+
+	app.get('/api/account/words', (req, res, next) => {
+		/* Get Transcription Object ID */
+		// const { query } = req;
+		// const { token } = query;
+		/* Get Words */
+		CrutchWords.findAll({}, null, (err, doc) => {
 			if (err) {
 				return res.send({
 					success: false,
