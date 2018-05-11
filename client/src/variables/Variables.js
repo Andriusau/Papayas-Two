@@ -491,8 +491,7 @@ var dataSales = {
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Aug', 'Sept', ' Oct', 'Nov', 'Dec'],
   series: [
      [2, 3, 9, 9, 5, 6, 6, 9],
-    [6, 2, 1, 0, 7, 5, 5, 7],
-    [2, 1, 7, 1, 1, 3, 3, 8]
+    [6, 2, 1, 0, 7, 5, 5, 7]
   ]
 };
 var optionsSales = {
@@ -521,8 +520,8 @@ var responsiveSales = [
   }]
 ];
 var legendSales = {
-    names: ["Open","Click","Click Second Time"],
-    types: ["info","danger","warning"]
+    names: ["Meaningful Content","Words in Transcriptions"],
+    types: ["danger","success"]
 };
 
 // Data for Bar Chart
@@ -551,8 +550,8 @@ var responsiveBar = [
   }]
 ];
 var legendBar = {
-    names: ["Meaningful Content","Filler Words"],
-    types: ["info","danger"]
+    names: ["Crutch Words"],
+    types: ["danger"]
 };
 
 module.exports = {

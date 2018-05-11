@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import 'whatwg-fetch';
 import { getFromStorage } from '../utils/storage';
-import Signin from '../Signin/Signin';
+// import Signin from '../Signin/Signin';
 
 class Logout extends Component {
 	constructor(props) {
@@ -18,10 +18,10 @@ class Logout extends Component {
 	}
 
 	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
-	// componentDidMount() {
-	// 	const obj = getFromStorage('papayas_app');
-	// 	const { token } = obj;
-	// }
+	componentDidMount() {
+		const obj = getFromStorage('papayas_app');
+		const { token } = obj;
+	}
 
 	/* Logout Function */
 	onLogOut() {
@@ -79,9 +79,9 @@ class Logout extends Component {
 					</div>
 						)
 					}
-		return (
-		<Redirect to='/signin' component={Signin} />
-	);
+	// 	return (
+	// 	<Redirect to='/signin' component={Signin} />
+	// );
 	}
 
 }

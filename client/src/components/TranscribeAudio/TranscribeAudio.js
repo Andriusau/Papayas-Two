@@ -207,7 +207,7 @@ class TranscribeAudio extends Component {
 		console.log(transcription);
 		/* If the Audio File Has Not Been Uploaded & Transcribed Render this */
 		if (isLoading) {
-			return (<div><h3>Please Wait While We Transcribe You're Audio...</h3></div>);
+			return (<div><h3>Geniuses at Work...</h3></div>);
 		}
 		if (!transcription) {
 			return (
@@ -223,7 +223,6 @@ class TranscribeAudio extends Component {
 											<Row>
 												<Col md={12}>
 													<FormGroup controlId='formControlsTextarea'>
-														<ControlLabel>Choose Audio File</ControlLabel>
 														<FormControl
 															rows='5'
 															type='file'

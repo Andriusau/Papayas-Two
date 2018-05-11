@@ -5,7 +5,7 @@ import { StatsCard } from '../StatsCard/StatsCard';
 import { Tasks } from '../Tasks/Tasks';
 import ChartistGraph from 'react-chartist';
 import Sidebar from '../Sidebar/Sidebar';
-// import { getFromStorage } from '../utils/storage';
+import { getFromStorage } from '../utils/storage';
 
 import { dataPie, legendPie, dataSales, optionsSales, responsiveSales, legendSales, dataBar, optionsBar, responsiveBar, legendBar } from '../../variables/Variables';
 class Dashboard extends Component {
@@ -22,9 +22,9 @@ class Dashboard extends Component {
 			// this.onLogOut = this.onLogOut.bind(this);
 		}
 
-	// componentDidMount() {
-	// 	const obj = getFromStorage('papayas_app');
-	// }
+	componentDidMount() {
+		const obj = getFromStorage('papayas_app');
+	}
 	createLegend(json) {
         var legend = [];
         for(var i = 0; i < json["names"].length; i++){
@@ -40,11 +40,9 @@ class Dashboard extends Component {
         return legend;
     }
 	render() {
-		// const {
-		// 	isLoading,
-		// 	signInError,
-		// 	token
-		// } = this.state;
+		const {
+			token
+		} = this.state;
 
 
 		return (
