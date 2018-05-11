@@ -56,7 +56,6 @@ class Logout extends Component {
 
 	render() {
 		const {
-			signInError,
 			token
 		} = this.state;
 
@@ -70,21 +69,16 @@ class Logout extends Component {
 			return (
 				<div>
 					<div>
-					{
-						(signInError) ? (
-							<p>{signInError}</p>
-						) : (null)
+					<h1>Log Out!</h1>
+					<br />
+					<br />
+					<button
+					onClick={this.onLogOut}>
+					Log Out</button>
+					</div>
+					</div>
+						)
 					}
-				<h1>Log Out!</h1>
-				<br />
-				<br />
-				<button
-				onClick={this.onLogOut}>
-				Log Out</button>
-				</div>
-				</div>
-			);
-		}
 		return (
 		<Redirect to='/signin' component={Signin} />
 	);

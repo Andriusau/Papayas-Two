@@ -370,25 +370,24 @@ module.exports = (app) => {
 		});
 	});
 
-	app.get('/api/account/words', (req, res, next) => {
-		/* Get Transcription Object ID */
-		// const { query } = req;
-		// const { token } = query;
-		/* Get Words */
-		CrutchWords.findAll({}, null, (err, doc) => {
-			if (err) {
-				return res.send({
-					success: false,
-					message: 'Error: You\'re Lost'
-				});
-			} else {
-				return res.send({
-					success: true,
-					message: 'You\'re Found',
-					doc
-				});
-			}
-		});
-	});
+	// app.get('/api/account/words', (req, res, next) => {
+	// 	/* Get Transcription Object ID */
+	// 	let resultArray[];
+	// 	/* Get Words */
+	// 	let results = CrutchWords.find();
+	// 	results.forEach(doc, err) => {
+	// 		resultArray
+	// 	} if (err) {
+	// 			return res.send({
+	// 				success: false,
+	// 				message: 'Error: You\'re Lost'
+	// 			});
+	// 		} else {
+	// 			return res.send({
+	// 				resultArray
+	// 			});
+	// 		}
+	// 	});
+	// });
 
 }

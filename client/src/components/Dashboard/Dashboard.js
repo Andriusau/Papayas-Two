@@ -17,6 +17,7 @@ class Dashboard extends Component {
 				token: ''
 				// redirect: true
 			};
+			console.log(this.props);
 			/* Binding Logout functions to the constructor */
 			// this.onLogOut = this.onLogOut.bind(this);
 		}

@@ -251,17 +251,6 @@ class TranscribeAudio extends Component {
 										bgImage='https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400'
 										avatar={avatar}
 										name='Mike Ignaczak'
-										description={
-											<span>
-												'Like'
-											<br />
-												'Um'
-											<br />
-												'Essentially'
-											<br />
-												'So'
-										</span>
-										}
 										socials={
 											<div>
 												<Button simple><i className='fa fa-facebook-square'></i></Button>
@@ -289,7 +278,7 @@ class TranscribeAudio extends Component {
 							<div className="TranscriptionItems">
 								<h3><strong>Latest Transcriptions</strong></h3>
 									<p>{this.state.transcription}</p>
-									<h3><strong>Your Said {this.state.count} Crutch Words Said</strong></h3>
+									<h3><strong>You Said {this.state.count} Crutch Words</strong></h3>
 									<div className="ct-chart">
 										<ChartistGraph
 											data={this.state.dataBar}
@@ -314,17 +303,6 @@ class TranscribeAudio extends Component {
 								bgImage='https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400'
 								avatar={avatar}
 								name='Mike Ignaczak'
-								description={
-									<span>
-										'Like'
-									<br />
-										'Um'
-									<br />
-										'Essentially'
-									<br />
-										'So'
-								</span>
-								}
 								socials={
 									<div>
 										<Button simple><i className='fa fa-facebook-square'></i></Button>
