@@ -18,10 +18,35 @@ class Logout extends Component {
 	}
 
 	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
-	componentDidMount() {
-		const obj = getFromStorage('papayas_app');
-		const { token } = obj;
-	}
+	// componentDidMount() {
+	// 	const obj = getFromStorage('papayas_app');
+	// 	if (obj && obj.token) {
+	// 		const {
+	// 			token
+	// 		} = obj;
+	// 		console.log('token: \n' + token);
+	// 		/* Verify Token */
+	// 		fetch('/api/account/verify?token=' + token)
+	// 			.then(res => res.json())
+	// 			.then(json => {
+	// 				if (json.success) {
+	// 					this.setState({
+	// 						token,
+	// 						isLoading: false
+	// 					});
+	// 				} else {
+	// 					this.setState({
+	// 						isLoading: false
+	// 					});
+	// 				}
+	// 			})
+	// 	} else {
+	// 		this.setState({
+	// 			isLoading: false
+	// 		});
+	// 	}
+
+	// }
 
 	/* Logout Function */
 	onLogOut() {

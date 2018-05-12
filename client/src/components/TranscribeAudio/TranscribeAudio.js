@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col, FormGroup, FormControl } from 'react-bootstrap';
 import 'whatwg-fetch';
 import Button from '../../elements/CustomButton/CustomButton';
 import avatar from '../../assets/img/faces/face-3.jpg';

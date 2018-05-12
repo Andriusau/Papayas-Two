@@ -7,7 +7,7 @@ import ChartistGraph from 'react-chartist';
 import Sidebar from '../Sidebar/Sidebar';
 import { getFromStorage } from '../utils/storage';
 
-import { dataPie, legendPie, dataSales, optionsSales, responsiveSales, legendSales, dataBar, optionsBar, responsiveBar, legendBar } from '../../variables/Variables';
+import { dataPie, legendPie, dataSales, optionsSales, responsiveSales, legendSales, dataBar, optionsBar, responsiveBar } from '../../variables/Variables';
 class Dashboard extends Component {
 		constructor(props) {
 			super(props);
@@ -15,15 +15,38 @@ class Dashboard extends Component {
 			this.state = {
 				isLoading: true,
 				token: ''
-				// redirect: true
 			};
 			console.log(this.props);
-			/* Binding Logout functions to the constructor */
-			// this.onLogOut = this.onLogOut.bind(this);
 		}
-
+	/* Initialization that requires DOM nodes should go here is invoked immediately after a component is mounted */
 	componentDidMount() {
 		const obj = getFromStorage('papayas_app');
+		if (obj && obj.token) {
+			const {
+				token
+			} = obj;
+			console.log('token: \n' + token);
+			/* Verify Token */
+			fetch('/api/account/verify?token=' + token)
+				.then(res => res.json())
+				.then(json => {
+					if (json.success) {
+						this.setState({
+							token,
+							isLoading: false
+						});
+					} else {
+						this.setState({
+							isLoading: false
+						});
+					}
+				})
+		} else {
+			this.setState({
+				isLoading: false
+			});
+		}
+
 	}
 	createLegend(json) {
         var legend = [];
@@ -41,10 +64,19 @@ class Dashboard extends Component {
     }
 	render() {
 		const {
-			token
+			token,
+			isLoading
 		} = this.state;
 
+		/* If the Audio File Has Not Been Uploaded & Transcribed Render this */
+		if (isLoading) {
+			return (<div><h3>Geniuses at Work...</h3></div>);
+		}
 
+		/* If the page has finished loading but there is no token when we look for it in getFromStorage, then render these elements */
+		if (!token) {
+			return (<div><h3>Please Sign In</h3></div>);
+		}
 		return (
 			<div className='wrapper'>
 				<Sidebar {...this.props} />
@@ -71,11 +103,7 @@ class Dashboard extends Component {
 													/>
 												</div>
 											}
-											legend={
-												<div className="legend">
-													{this.createLegend(legendBar)}
-												</div>
-											}
+
 										/>
 								</Col>
 							</Row>
@@ -99,7 +127,7 @@ class Dashboard extends Component {
 							<Row>
 								<Col lg={3} sm={6}>
 									<StatsCard
-										bigIcon={<i className='pe-7s-graph1'></i>}
+										bigIcon={<i className='pe-7s-graph1 text-success'></i>}
 										statsText='Total Words'
 										statsValue='1034'
 										statsIcon={<i className='fa fa-refresh'></i>}
@@ -108,7 +136,7 @@ class Dashboard extends Component {
 								</Col>
 								<Col lg={3} sm={6}>
 									<StatsCard
-										bigIcon={<i className='pe-7s-bandaid text-danger'></i>}
+										bigIcon={<i className='pe-7s-bandaid text-warning'></i>}
 										statsText='Filler Words'
 										statsValue='143'
 										statsIcon={<i className='fa fa-calendar-o'></i>}
@@ -117,7 +145,7 @@ class Dashboard extends Component {
 								</Col>
 								<Col lg={3} sm={6}>
 									<StatsCard
-										bigIcon={<i className='pe-7s-folder'></i>}
+										bigIcon={<i className='pe-7s-folder text-info'></i>}
 										statsText='Total Files'
 										statsValue='23'
 										statsIcon={<i className='fa fa-clock-o'></i>}
@@ -164,7 +192,7 @@ class Dashboard extends Component {
 										statsIcon="fa fa-clock-o"
 										title="Break it Down"
 										id="progress"
-										category="Proportion of my TalkTrack"
+										category="Conversation Breakdown"
 										stats="Audio sent 2 minutes ago"
 										content={
 											<div id="chartPreferences" className="ct-chart ct-perfect-fourth">

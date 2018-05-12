@@ -16,4 +16,18 @@ module.exports = (app) => {
 	// 		.then(results => res.json(results))
 	// 		.catch(err => res.json(err));
 	// });
+	app.get('/api/account/transcription', (req, res, next) => {
+	Transcription
+	.find({})
+	.exec()
+	.then(results =>{
+		console.log(docs);
+		res.status(200).json(results);
+	}).catch(err =>{
+		console.log(err);
+		res.status(500).json({
+			error: err
+		});
+	});
+});
 }

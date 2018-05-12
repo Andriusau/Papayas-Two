@@ -186,23 +186,23 @@ var style = {
         },
 
         success: {
-            // color: '#f0f5ea',
-            // backgroundColor: '#a1e82c'
+            color: '#f0f5ea',
+            backgroundColor: '#a1e82c'
         },
 
         error: {
-            // color: '#f4e9e9',
-            // backgroundColor: '#fc727a'
+            color: '#f4e9e9',
+            backgroundColor: '#fc727a'
         },
 
         warning: {
-            // color: '#f9f6f0',
-            // backgroundColor: '#ffbc67'
+            color: '#f9f6f0',
+            backgroundColor: '#ffbc67'
         },
 
         info: {
-            // color: '#e8f0f4',
-            // backgroundColor: '#63d8f1'
+            color: '#e8f0f4',
+            backgroundColor: '#63d8f1'
         }
     },
 
@@ -482,21 +482,20 @@ var dataPie = {
     series: [65, 35]
 };
 var legendPie = {
-    names: ["Meaningful Content","Crutch Words"],
+    names: ["Content","Crutch Words"],
     types: ["info","danger"]
 };
 
 // Data for Line Chart
 var dataSales = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Aug', 'Sept', ' Oct', 'Nov', 'Dec'],
   series: [
      [2, 3, 9, 9, 5, 6, 6, 9],
     [6, 2, 1, 0, 7, 5, 5, 7]
-  ]
+  ],
 };
 var optionsSales = {
   low: 0,
-  high: 30,
+  high: 15,
   showArea: false,
   height: "245px",
   axisX: {

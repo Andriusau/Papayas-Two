@@ -48,7 +48,7 @@ class Sidebar extends Component {
 							<li className='nav-item active'>
 							<NavLink to='/user' className='nav-link'> User Profile</NavLink>
 							<NavLink to='/dashboard' className='nav-link'> Dashboard</NavLink>
-							<NavLink to='/transcribe' className='nav-link'> Upload & Transcribe Audio</NavLink>
+							<NavLink to='/transcribe' className='nav-link'> Transcribe Audio</NavLink>
 							</li>
 					</ul>
                 </div>
