@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 import Button from '../../elements/CustomButton/CustomButton';
-import avatar from '../../assets/img/faces/face-3.jpg';
+import avatar from '../../assets/img/faces/face-4.jpg';
 import Sidebar from '../Sidebar/Sidebar';
 import { FormInputs } from '../FormInputs/FormInputs';
 import { Card } from '../Card/Card';
@@ -20,20 +20,14 @@ class UserProfile extends Component {
 							<Card title='Edit Profile' content={
                                     <form>
                                         <FormInputs
-                                            ncols = {['col-md-6' , 'col-md-6' , ]}
+                                            ncols = {['col-md-12' ]}
                                             proprieties = {[
-                                                {
-                                                 label : 'Username',
-                                                 type : 'text',
-                                                 bsClass : 'form-control',
-                                                 placeholder : 'Username',
-                                                 defaultValue : 'mike1'
-                                                },
                                                 {
                                                  label : 'Email address',
                                                  type : 'email',
                                                  bsClass : 'form-control',
-                                                 placeholder : 'mike1@mike1.com'
+                                                 placeholder : 'mike1@mike1.com',
+                                                 defaultValue : 'mikeignaczak@gmail.com'
                                                 }
                                             ]}
                                         />
@@ -91,15 +85,6 @@ class UserProfile extends Component {
                                                 }
                                             ]}
                                         />
-
-                                        <Row>
-                                            <Col md={12}>
-                                                <FormGroup controlId='formControlsTextarea'>
-                                                    <ControlLabel>Enter Your Crutch Words Here</ControlLabel>
-                                                    <FormControl rows='5' componentClass='textarea' bsClass='form-control' placeholder='Please seperate each word by a semi colon (ex: word; word; word)'/>
-                                                </FormGroup>
-                                            </Col>
-                                        </Row>
                                         <Button
                                             bsStyle='info'
                                             pullRight

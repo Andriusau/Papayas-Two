@@ -8,7 +8,7 @@ class Header extends Component{
 				<div className="container">
 					<a
 						className="navbar-brand"
-						href="/dashboard">Like Um
+						href="/dashboard">Like...Um
 					</a>
 					<button
 						className="navbar-toggler"

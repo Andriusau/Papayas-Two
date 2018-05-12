@@ -4127,7 +4127,7 @@ body,
 	font-family: calibri, sans-serif;
 }
 
-td{
+td, p{
 	text-align: left;
 }
 .container{

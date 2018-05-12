@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, FormGroup, FormControl } from 'react-bootstrap';
 import 'whatwg-fetch';
 import Button from '../../elements/CustomButton/CustomButton';
-import avatar from '../../assets/img/faces/face-3.jpg';
+import avatar from '../../assets/img/faces/face-4.jpg';
 import Sidebar from '../Sidebar/Sidebar';
 import { Card } from '../Card/Card';
 import { UserCard } from '../UserCard/UserCard';

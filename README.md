@@ -1,65 +1,66 @@
-# Create React Express App
+# Like...Um
 
-## About This Boilerplate
+## WHAT WE DO
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+Professionals everywhere are having interactions constantly.  Whether those are in person interactions or phone call interactions.  During these interactions crutch words are being used more than intended and the people using them either don't know they are or want to stop using them.
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+### Project Overview
 
-## Starting the app locally
+Like, um is a online platform that will take in users audio files of conversations they have had and transcribe that talk track and point out the crutch words being used.  Users will be able to set input a list of their own defined crutch words to be spotted or leverage our list of commonly used crutch words.
 
-Start by installing front and backend dependencies. While in this directory, run the following commands:
+### Project Requirements
+1. Must use React, Vue, or Angular in some way (even if minimal)
+2. Must use a Node and Express Web Server
+3. Must be backed by a MySQL or MongoDB Database with a Sequelize or Mongoose ORM
+4. Must have both GET and POST routes for retrieving and adding new data
+5. Must be deployed using Heroku (with Data)
+6. Must utilize at least two libraries, packages, or technologies that we haven’t discussed
+7. Must allow for or involve the authentication of users in some way
+8. Must have a polished frontend / UI
+9. Must have folder structure that meets MVC Paradigm
+10. Must meet good quality coding standards (indentation, scoping, naming)
+11. Must not expose sensitive API key information on the server, see Protecting-API-Keys-In-Node.md
+- - -
+## PRODUCT GOALS
 
-```
-yarn install
-cd client
-yarn install
-cd ..
-``
+### Leverage the Google Cloud Speech-to-Text API
+We intend to use the Google Cloud Speech to Text API to transcribe audio files
 
-After both installations complete, run the following command in your terminal:
+### Let users create accounts where they can track their progress
+We want users to have the ability to use our application to filter through the transcriptions and highlight user defined crutch words.  Maybe even have the the user search for any specific word in the transcription.
 
-```
-yarn start
-```
+### Visualize the trends in crutch words being used
+We want to help visualize trends of crutch words being used so that users can see that this platform is helping them get better.
+- - -
+## TECHNOLOGY USED
 
-That's it, your app should be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
+### Client-Side
+* Chartist
+* React
+* React Bootstrap
+* React Chartist
+* React Dom
+* React Router
+* React Router Dom
+* React Scripts
+* Whatwg Fetch
+### Server-Side
+* Bcrypt
+* Body Parser
+* Dot Env
+* Express
+* Mongoose
+* Busboy
+* Busboy Body-Parser
+* Busboy Promise
+* CORS
+* DotEnv
+* BTOA
+### Third Party Libraries
+* Mongo DB
+* Google Speech API
+* Heroku - Deployment
 
-## Deployment (Heroku)
-
-After confirming that you have an up to date git repository and a Heroku app created, complete the following:
-
-1. Build the React app for production by running the following command:
-
-```
-yarn build
-```
-
-2. Add and commit all changes to git
-
-3. Push to Heroku
-
-If all previous steps were followed correctly, your application should be deployed to Heroku!
-# Deployment
-
-In this activity we will deploy the React Reading List application to Heroku.
-
-## Instructions
-
-* Deploy the React Reading List application to Heroku. Make sure to perform the following:
-
-  * Initialize the project folder as a git repo.
-
-  * Create a Heroku app for the React Reading List App.
-
-  * Add a MongoLab Addon for the React Reading List Heroku app.
-
-  * Run `yarn build` from within the project folder.
-
-### Hints
-
-* Make sure you add and commit all changes before pushing up to Heroku.
-
-* If your deployment fails, run `heroku logs` while in the project directory. This should print all of the logs produced from the failed deployment. Usually the issue can be found at the start of any errors.
-
-* Ask an instructor or TA for help if you get stuck. Help your neighbor if you finish early!
+- - -
+## Deployed Site
+[Check out the live app here](https://like-um.herokuapp.com/)

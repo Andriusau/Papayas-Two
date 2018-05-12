@@ -32,14 +32,14 @@ class Sidebar extends Component {
             <div id='sidebar' className='sidebar' data-color='black' data-image={imagine}>
                 <div className='sidebar-background' style={sidebarBackground}></div>
                     <div className='logo'>
-                        <a href='https://new-papayas-project.herokuapp.com/' className='simple-text logo-mini'>
+                        <a href='https://like-um.herokuapp.com/' className='simple-text logo-mini'>
                             <div className='logo-img'>
                                 <img src={logo} alt='logo_image'/>
                             </div>
 
                         </a>
-                        <a href='https://new-papayas-project.herokuapp.com/' className='simple-text logo-normal'>
-                            Papayas Project 3
+                        <a href='https://like-um.herokuapp.com/' className='simple-text logo-normal'>
+                            Like...Um
                         </a>
                     </div>
 				<div className='sidebar-wrapper'>
